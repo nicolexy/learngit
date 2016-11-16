@@ -205,9 +205,10 @@ namespace CFT.CSOMS.DAL.Infrastructure
         /// <param name="port"></param>
         /// <param name="Msg"></param>
         /// <returns></returns>
-        public static DataSet GetBankInfoFromRelay(string requestString, string serviceCode, string relayIP = "", int relayPort = 0, bool encrypt = false, bool invisible = false, string relayDefaultSPId = "")
+        public static DataSet GetBankInfoFromRelay(out int totalNum,string requestString, string serviceCode, string relayIP = "", int relayPort = 0, bool encrypt = false, bool invisible = false, string relayDefaultSPId = "")
         {
             string answer = "";
+            totalNum = 0;
             try
             {
                 RelayRequest relayReq = new RelayRequest() { RequestString = requestString };
@@ -228,8 +229,8 @@ namespace CFT.CSOMS.DAL.Infrastructure
                 return null;
             }
             string strMsg = null;
-            int nAll = 0;
-            return CommQuery.ParseRelayPageRowNum(answer, out strMsg,out nAll);
+
+            return CommQuery.ParseRelayPageRowNum(answer, out strMsg, out totalNum);
         }
 
         /// <summary>

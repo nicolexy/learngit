@@ -474,7 +474,7 @@ namespace CFT.CSOMS.DAL.CreditModule
                 
                 //string testRquest = "acct_no=2056226882&acct_type=0&end_date=20161017&page_size=1&req_type=0&start_date=20160901&ts=1476710359&key=7tzkfz7u18fbbibf7vb62662vqwnblaq&sign=0435fb1d4a15b14947d67aa37237945a";
                 LogHelper.LogInfo("LoadRepayList_RequestString:" + sb_RequestString.ToString());
-                result = RelayAccessFactory.RelayInvoke(sb_RequestString.ToString(), requestType, false, false, ip, port);
+                result = RelayAccessFactory.RelayInvoke(sb_RequestString.ToString(), requestType, false, false, ip, port);                
                 LogHelper.LogInfo("LoadRepayList_result:" + result);
             }
             catch (Exception ex)

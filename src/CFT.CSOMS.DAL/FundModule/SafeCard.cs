@@ -13,7 +13,7 @@ namespace CFT.CSOMS.DAL.FundModule
     public class SafeCard
     {
         //获取理财通安全卡更换日志
-        public DataTable GetFundTradeLog(string qqid, int istr, int imax)
+        public DataTable GetFundTradeLog(string Tradeid, string qqid, int istr, int imax)
         {
             //using (var da = MySQLAccessFactory.GetMySQLAccess("Fund"))
             //{
@@ -33,7 +33,7 @@ namespace CFT.CSOMS.DAL.FundModule
             DataTable dt = null;
             var serverIp = System.Configuration.ConfigurationManager.AppSettings["FundRateIP"].ToString();
             var serverPort = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings["FundRatePort"].ToString());
-            string requestText = "reqid=679&flag=2&offset={0}&limit={1}&fields=qqid:{2}";
+            string requestText = "route_type=tradeid&route_tradeid=" + Tradeid + "&reqid=679&flag=2&offset={0}&limit={1}&fields=qqid:{2}";
             requestText = string.Format(requestText, istr, imax, qqid);
             DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "100769", serverIp, serverPort);
             if (ds != null && ds.Tables.Count > 0)
@@ -42,7 +42,7 @@ namespace CFT.CSOMS.DAL.FundModule
             }
             return dt;
         }
-        public DataTable GetPayCardInfo(string qqid)
+        public DataTable GetPayCardInfo(string Tradeid, string qqid)
         {
             //if (qqid == null || qqid == "")
             //{
@@ -65,7 +65,7 @@ namespace CFT.CSOMS.DAL.FundModule
             DataTable dt = null;
             var serverIp = System.Configuration.ConfigurationManager.AppSettings["FundRateIP"].ToString();
             var serverPort = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings["FundRatePort"].ToString());
-            string requestText = "reqid=661&flag=1&fields=uin:" + qqid;
+            string requestText = "route_type=tradeid&route_tradeid=" + Tradeid + "&reqid=661&flag=1&fields=uin:" + qqid;
             DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "100769", serverIp, serverPort);
             if (ds != null && ds.Tables.Count > 0)
             {
@@ -112,13 +112,13 @@ namespace CFT.CSOMS.DAL.FundModule
             string requestText = "reqid=616&flag=1&fields=bank_type:{0}|support_type:{1}";
 
             string requestText1 = string.Format(requestText, bank_type, 1);
-            DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText1, "100769", serverIp, serverPort);
+            DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText1, "102759", serverIp, serverPort);//100769
 
             string requestText2 = string.Format(requestText, bank_type, 2);
-            DataSet ds2 = RelayAccessFactory.GetDSFromRelayFromXML(requestText2, "100769", serverIp, serverPort);
+            DataSet ds2 = RelayAccessFactory.GetDSFromRelayFromXML(requestText2, "102759", serverIp, serverPort);//100769
 
             string requestText3 = string.Format(requestText, bank_type, 3);
-            DataSet ds3 = RelayAccessFactory.GetDSFromRelayFromXML(requestText3, "100769", serverIp, serverPort);
+            DataSet ds3 = RelayAccessFactory.GetDSFromRelayFromXML(requestText3, "102759", serverIp, serverPort);//100769
 
             ds = PublicRes.ToOneDataset(ds, ds2);
             ds = PublicRes.ToOneDataset(ds, ds3);

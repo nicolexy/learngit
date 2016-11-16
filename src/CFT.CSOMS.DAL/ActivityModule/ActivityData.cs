@@ -365,7 +365,7 @@ namespace CFT.CSOMS.DAL.ActivityModule
         }
 
         //通过FUid找到用户参加活动的渠道号
-        public string GetChannelIDByFUId(string uid)
+        public string GetChannelIDByFUId(string Tradeid, string uid)
         {
             //if (string.IsNullOrEmpty(uid)) return string.Empty;
 
@@ -390,7 +390,7 @@ namespace CFT.CSOMS.DAL.ActivityModule
 
             var serverIp = System.Configuration.ConfigurationManager.AppSettings["FundRateIP"].ToString();
             var serverPort = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings["FundRatePort"].ToString());
-            string requestText = "reqid=677&flag=2&offset=0&limit=1&fields=uid:" + uid;
+            string requestText = "route_type=tradeid&route_tradeid=" + Tradeid + "&reqid=677&flag=2&offset=0&limit=1&fields=uid:" + uid;
 
             DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "100769", serverIp, serverPort);
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)

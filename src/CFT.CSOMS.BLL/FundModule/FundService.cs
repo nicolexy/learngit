@@ -121,19 +121,21 @@ namespace CFT.CSOMS.BLL.FundModule
 
            return SmallChangedic.Any(p => p == spid);
         }
-      
-        public DataTable GetFundTradeLog(string qqid,int istr, int imax)
+
+        public DataTable GetFundTradeLog(string qqid, int istr, int imax)
         {
             if (string.IsNullOrEmpty(qqid))
                 throw new ArgumentNullException("qqid");
-            return new SafeCard().GetFundTradeLog(qqid, istr, imax);
+            string Tradeid = GetTradeIdByUIN(qqid);
+            return new SafeCard().GetFundTradeLog(Tradeid, qqid, istr, imax);
         }
 
         public DataTable GetPayCardInfo(string qqid) 
         {
             if (string.IsNullOrEmpty(qqid))
                 throw new ArgumentNullException("qqid");
-            DataTable dt=new SafeCard().GetPayCardInfo(qqid);
+            string Tradeid = GetTradeIdByUIN(qqid);
+            DataTable dt=new SafeCard().GetPayCardInfo(Tradeid,qqid);
             if (dt != null && dt.Rows.Count > 0)
             {
                 dt.Columns.Add("bank_type_name", typeof(string));
@@ -151,7 +153,8 @@ namespace CFT.CSOMS.BLL.FundModule
         {
             if (string.IsNullOrEmpty(u_QQID))
                 throw new ArgumentNullException("u_QQID");
-            DataTable dt=new FundRoll().QueryFundRollList(u_QQID, u_BeginTime, u_EndTime, Fcurtype, istr, imax, Ftype);
+            string Tradeid = GetTradeIdByUIN(u_QQID);
+            DataTable dt = new FundRoll().QueryFundRollList(Tradeid, u_QQID, u_BeginTime, u_EndTime, Fcurtype, istr, imax, Ftype);
             return dt;
         }
 
@@ -191,13 +194,7 @@ namespace CFT.CSOMS.BLL.FundModule
         {
             if (string.IsNullOrEmpty(uin))
                 throw new ArgumentNullException("uin");
-
-            var fundAccountInfo = new FundAccountInfo().QueryFundAccountRelationInfo(uin);
-
-            if (fundAccountInfo.Rows.Count < 1)
-                return null;
-
-            return fundAccountInfo.Rows[0]["Ftrade_id"].ToString();
+            return new FundAccountInfo().GetTradeIdByUIN(uin);
         }
 
         public DataTable GetUserFundAccountInfo(string uin)
@@ -206,7 +203,9 @@ namespace CFT.CSOMS.BLL.FundModule
                 throw new ArgumentNullException("uin");
             try
             {
-                var fundAccountInfo = new FundAccountInfo().QueryFundAccountRelationInfo(uin);
+                string Tradeid = GetTradeIdByUIN(uin);
+
+                var fundAccountInfo = new FundAccountInfo().QueryFundAccountRelationInfo(Tradeid, uin);
 
                 if (fundAccountInfo == null || fundAccountInfo.Rows.Count == 0)
                     return null;
@@ -250,6 +249,7 @@ namespace CFT.CSOMS.BLL.FundModule
         /// <returns></returns>
         public DataTable GetUserFundSummary(string uin)
         {
+            /*
             var tradeId = GetTradeIdByUIN(uin);
             if (string.IsNullOrEmpty(tradeId))
                 throw new Exception(string.Format("{0}没有对应的基金账户，查询不到TradeId", uin));
@@ -461,9 +461,229 @@ namespace CFT.CSOMS.BLL.FundModule
             }
 
             return userFundsTable;
+
+            */
+
+            var tradeId = GetTradeIdByUIN(uin);
+            if (string.IsNullOrEmpty(tradeId))
+                throw new Exception(string.Format("{0}没有对应的基金账户，查询不到TradeId", uin));
+
+            //获取用户的所有基金
+            // var userFundsTable = new FundProfit().QueryProfitStatistic(tradeId);
+            var dt = new FundProfit().QueryFundBind(tradeId);//查商户号
+            if (dt == null || dt.Rows.Count < 1)
+                throw new Exception(string.Format("{0}没有申购的基金", uin));
+
+            var userFundsTable = new DataTable();
+
+            userFundsTable.Columns.Add("Fspid", typeof(string));
+
+            userFundsTable.Columns.Add("balance", typeof(string));
+            userFundsTable.Columns.Add("fundName", typeof(string));
+            userFundsTable.Columns.Add("Fcurtype", typeof(string));
+            userFundsTable.Columns.Add("Ftotal_profit", typeof(string));
+            userFundsTable.Columns.Add("con", typeof(string));//冻结金额
+            userFundsTable.Columns.Add("fund_code", typeof(string));
+            userFundsTable.Columns.Add("close_flag", typeof(string));
+            userFundsTable.Columns.Add("transfer_flag", typeof(string));
+            userFundsTable.Columns.Add("buy_valid", typeof(string));
+            userFundsTable.Columns.Add("markValue", typeof(string));//市值
+
+            userFundsTable.Columns.Add("profitText", typeof(string));
+            userFundsTable.Columns.Add("balanceText", typeof(string)); //余额
+            userFundsTable.Columns.Add("conText", typeof(string));//冻结金额
+            userFundsTable.Columns.Add("close_flagText", typeof(string));
+            userFundsTable.Columns.Add("transfer_flagText", typeof(string));
+            userFundsTable.Columns.Add("buy_validText", typeof(string));
+
+            //基金类型
+            userFundsTable.Columns.Add("Ftype", typeof(string));//基金类型
+            userFundsTable.Columns.Add("FType_Str", typeof(string));//基金类型
+
+            var cftAccountBLLService = new CFTAccountModule.AccountService();
+            DataTable subAccountInfoTable;
+
+            foreach (DataRow item in dt.Rows)
+            {
+                //  (); (item["Fspid"].ToString());//查Fcurtype及基金名称
+                DataTable dtFundInfo = new FundInfoData().QueryAllFundInfo();
+
+                if (dtFundInfo == null || dtFundInfo.Rows.Count == 0)
+                {
+                    continue;
+                }
+                DataRow[] drsFundInfo = dtFundInfo.Select(" Fspid='" + item["Fspid"].ToString() + "'");
+
+                foreach (DataRow itemFundInfo in drsFundInfo)
+                {
+                    DataRow dr = userFundsTable.NewRow();
+                    dr["Fspid"] = item["Fspid"].ToString();
+
+                    dr["Fcurtype"] = itemFundInfo["Fcurtype"].ToString();
+                    dr["fundName"] = itemFundInfo["Ffund_name"].ToString();
+                    dr["fund_code"] = itemFundInfo["Ffund_code"].ToString();
+                    dr["close_flag"] = itemFundInfo["Fclose_flag"].ToString();
+                    dr["transfer_flag"] = itemFundInfo["Ftransfer_flag"].ToString();
+                    dr["buy_valid"] = itemFundInfo["Fbuy_valid"].ToString();
+                    dr["Ftype"] = itemFundInfo["Ftype"].ToString();
+
+                    #region  查询份额
+                    int Fcurtype = 0;
+                    if (int.TryParse(dr["Fcurtype"].ToString().Trim(), out Fcurtype))
+                    {
+                        throw new Exception("查询币种类型失败，fund_code：" + itemFundInfo["Ffund_name"].ToString());
+                    }
+                    subAccountInfoTable = new LCTBalanceService().QuerySubAccountInfo(uin, Fcurtype);
+                    if (subAccountInfoTable == null || subAccountInfoTable.Rows.Count < 1)
+                    {
+                        dr["balance"] = "0";
+                        dr["con"] = "0";
+                    }
+                    else
+                    {
+                        dr["balance"] = subAccountInfoTable.Rows[0]["Fbalance"].ToString();
+                        dr["con"] = subAccountInfoTable.Rows[0]["Fcon"].ToString();
+                    }
+                    #endregion
+
+                    #region  查询收益
+                    //fundname
+
+                    //    item["fundName"] = GetAllFundInfo().Where(i => i.CurrencyType == int.Parse(item["Fcurtype"].ToString())).First().Name;
+                    try
+                    {
+                        //查累计收益
+                        var ProfitTable = new FundProfit().QueryProfitStatistic(tradeId, Fcurtype);
+
+                        if (ProfitTable != null && ProfitTable.Rows.Count > 0)
+                        {
+                            if (dr["Facct_type"].ToString() == "2")
+                            {
+                                //查余额+累计收益
+                                dr["Ftotal_profit"] = ProfitTable.Rows[0]["Fstandby7"].ToString();
+                            }
+                            else
+                            {
+                                //普通基金累计收益
+                                dr["Ftotal_profit"] = ProfitTable.Rows[0]["Ftotal_profit"].ToString();
+                            }
+                        }
+                        else
+                        {
+                            dr["Ftotal_profit"] = "0";
+                        }
+                    }
+                    catch
+                    {
+
+                    }
+                    #endregion
+
+                    #region 查询市值
+                    string fund_code = dr["fund_code"].ToString();
+                    string spid = dr["Fspid"].ToString();
+                    string balance = dr["balance"].ToString();
+                    try
+                    {
+                        dr["markValue"] = GetMarkValueForFund(tradeId,fund_code, spid, balance);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception("查询市值异常：" + ex.Message);
+                    }
+                    #endregion
+
+                    #region 字段转义
+                    //基金类型转义
+                    if (IsSmallChange(dr["Fspid"].ToString()))
+                    {
+                        dr["FType_Str"] = "零钱";
+                    }
+                    else
+                    {
+                        dr["FType_Str"] = DicFtype[dr["FType"].ToString()];
+                    }
+
+                    switch (dr["close_flag"].ToString())
+                    {
+                        case "1":
+                            dr["close_flagText"] = "不封闭";
+                            break;
+                        case "2":
+                            dr["close_flagText"] = "封闭";
+                            break;
+                        case "3":
+                            dr["close_flagText"] = "半封闭";
+                            break;
+                    }
+                    switch (dr["transfer_flag"].ToString())
+                    {
+                        case "0":
+                            dr["transfer_flagText"] = "不支持转入、转出";
+                            break;
+                        case "1":
+                            dr["transfer_flagText"] = "支持转入不支持转出";
+                            break;
+                        case "2":
+                            dr["transfer_flagText"] = "支持转出不支持转入";
+                            break;
+                        case "3":
+                            dr["transfer_flagText"] = "同时支持转入和转出";
+                            break;
+                    }
+                    switch (dr["buy_valid"].ToString())
+                    {
+                        case "1":
+                            dr["buy_validText"] = "支持申购";
+                            break;
+                        case "2":
+                            dr["buy_validText"] = "支持认购";
+                            break;
+                        case "4":
+                            dr["buy_validText"] = "支持申购/认购";
+                            break;
+                    }
+
+                    #endregion
+
+                    #region  统计收益总和，和余额总和
+                    long temp_totalBalance = 0;
+                    long temp_totalProfit = 0;
+                    decimal temp_totalChangeMarkValue = 0;
+                    decimal temp_totalLCTMarkValue = 0;
+
+                    long.TryParse(dr["balance"].ToString().Trim(), out temp_totalBalance);
+                    long.TryParse(dr["Ftotal_profit"].ToString().Trim(), out temp_totalProfit);
+
+                    if (IsSmallChange(dr["Fspid"].ToString()))
+                    {
+                        decimal.TryParse(dr["markValue"].ToString().Trim(), out temp_totalChangeMarkValue);
+                    }
+                    else
+                    {
+                        decimal.TryParse(dr["markValue"].ToString().Trim(), out temp_totalLCTMarkValue);
+                    }
+
+                    if (dr["Facct_type"].ToString() == "2")
+                    {
+                        //余额＋基金在用户各基金中最多只有一个，所有可以在循环体中赋值，而不用+=；
+                        _BalancePlus = temp_totalBalance;
+                        _BalancePlus_fundName = dr["fundName"].ToString();
+                    }
+
+                    _totalBalance += temp_totalBalance;
+                    _totalProfit += temp_totalProfit;
+                    _totalChangeMarkValue += temp_totalChangeMarkValue;
+                    _totalLCTMarkValue += temp_totalLCTMarkValue;
+                    #endregion
+
+                    userFundsTable.Rows.Add(dr);
+                }
+            }
+            return userFundsTable;
         }
 
-        private  string GetMarkValueForFund(string fund_code, string spid, string balance)
+        private  string GetMarkValueForFund(string tradeId, string fund_code, string spid, string balance)
         {
             string balanceStr = MoneyTransfer.FenToYuan(balance);//页面上也转了一次，因为API接口是分，所以函数不能随便改必须兼容
             if (isSpecialFund(fund_code, spid)) //易方达沪深300基金的市值=基金份额*每日单位净值 其他基金市值=份额
@@ -477,7 +697,7 @@ namespace CFT.CSOMS.BLL.FundModule
                     weekDay = Convert.ToInt16(dateTime.DayOfWeek).ToString();
                 }
                 //string date = dateTime.ToString("yyyMMdd");
-                var fundProfit = new FundProfit().QueryFundProfitRate(spid, fund_code);
+                var fundProfit = new FundProfit().QueryFundProfitRate(tradeId, spid, fund_code);
                 decimal F1day_profit_rate = 0.0M;
 
                 if (fundProfit != null && fundProfit.Rows.Count > 0)
@@ -528,16 +748,16 @@ namespace CFT.CSOMS.BLL.FundModule
             return totalMarkValue;
         }
 
-        public bool IfAnewBoughtFund(string listid, string time)
+        public bool IfAnewBoughtFund(string tradeId, string listid, string time)
         {
             if (string.IsNullOrEmpty(listid))
                 throw new ArgumentNullException("listid");
-            return new FundInfoData().QueryIfAnewBoughtFund(listid, DateTime.Parse(time));
+            return new FundInfoData().QueryIfAnewBoughtFund(tradeId, listid, DateTime.Parse(time));
         }
         //查询基金交易单
-        public DataTable QueryTradeFundInfo(string spid, string listid)
+        public DataTable QueryTradeFundInfo(string tradeId,string spid, string listid)
         {
-            return new FundInfoData().QueryTradeFundInfo(spid, listid);
+            return new FundInfoData().QueryTradeFundInfo(tradeId, spid, listid);
         }
 
         //查询定期产品用户交易记录
@@ -669,11 +889,11 @@ namespace CFT.CSOMS.BLL.FundModule
              return tbCloseFundRollList;
         }
 
-          //通过商户号查询基金公司信息
-        public DataTable QueryFundInfoBySpid(string spid)
-        {
-            return new FundInfoData().QueryFundInfoBySpid(spid);
-        }
+        //  //通过商户号查询基金公司信息
+        //public DataTable QueryFundInfoBySpid(string spid)
+        //{
+        //    return new FundInfoData().QueryFundInfoBySpid(spid);
+        //}
        
         //查询用户余额收益情况明细  -- 将页面的逻辑封装在接口中
         public DataTable BindProfitList(string tradeId, string beginDateStr, string endDateStr, int currencyType = -1, string spId = "", int currentPageIndex = 0, int pageSize = 5, string fund_code = "")
@@ -739,7 +959,7 @@ namespace CFT.CSOMS.BLL.FundModule
                             dr["fund_balance"] = dr["Fvalid_money_str"].ToString();
                             try
                             {
-                                var fundProfit = new FundProfit().QueryFundProfitRate(spId, fund_code);
+                                var fundProfit = new FundProfit().QueryFundProfitRate(tradeId, spId, fund_code);
 
                                 if (fundProfit != null && fundProfit.Rows.Count > 0)
                                 {
@@ -815,7 +1035,7 @@ namespace CFT.CSOMS.BLL.FundModule
             {
                 if (string.IsNullOrEmpty(qqId))
                     throw new ArgumentNullException("qqId");
-
+                string Tradeid = GetTradeIdByUIN(qqId);
                 /*
                 var fundInfo = FundService.GetAllFundInfo().Where(i => i.SPId == spId);
 
@@ -850,7 +1070,7 @@ namespace CFT.CSOMS.BLL.FundModule
                             string Fpur_type = dr["Fpur_type"].ToString();
                             string Floading_type = dr["Floading_type"].ToString();
                             string Fpurpose = dr["Fpurpose"].ToString();
-                            var tradeFund = QueryTradeFundInfo(spid, dr["Flistid"].ToString());
+                            var tradeFund = QueryTradeFundInfo(Tradeid, spid, dr["Flistid"].ToString());
                             string Fbusiness_type = "";
                             if (tradeFund != null && tradeFund.Rows.Count > 0)
                             {
@@ -1221,7 +1441,7 @@ namespace CFT.CSOMS.BLL.FundModule
                 //    throw new Exception(string.Format("找不到{0}对应的基金信息", spId));
 
                 var bankRollList = new FundRoll().GetChildrenBankRollList(qqId, beginTime, endTime, curtype, offset, limit, fType, fMemo);
-
+                string Tradeid = GetTradeIdByUIN(qqId);
                 if (bankRollList!=null&&bankRollList.Tables.Count>0 && bankRollList.Tables.Count > 0)
                 {
                     bankRollList.Tables[0].Columns.Add("FpaynumText", typeof(string));
@@ -1266,12 +1486,12 @@ namespace CFT.CSOMS.BLL.FundModule
                         string listid = dr["Flistid"].ToString();
                         if (dr["FmemoText"].ToString().Equals("基金申购"))
                         {
-                            if (IfAnewBoughtFund(dr["Flistid"].ToString(), dr["Fcreate_time"].ToString()))
+                            if (IfAnewBoughtFund(Tradeid,dr["Flistid"].ToString(), dr["Fcreate_time"].ToString()))
                             {
                                 dr["FmemoText"] = "重新申购";
                             }
 
-                            DataTable tradeFund= QueryTradeFundInfoPro(spId, listid);//查询多基金转换
+                            DataTable tradeFund= QueryTradeFundInfoPro(Tradeid,spId, listid);//查询多基金转换
                             if (tradeFund != null && tradeFund.Rows.Count > 0)
                             {
                                 dr["FmemoText"] += tradeFund.Rows[0]["duoFund"].ToString();
@@ -1281,7 +1501,7 @@ namespace CFT.CSOMS.BLL.FundModule
 
                         if (dr["FmemoText"].ToString().Equals("提现"))
                         {
-                            DataTable tradeFund = QueryTradeFundInfoPro(spId, listid.Substring(listid.Length - 18));//查询多基金转换
+                            DataTable tradeFund = QueryTradeFundInfoPro(Tradeid,spId, listid.Substring(listid.Length - 18));//查询多基金转换
                             if (tradeFund != null && tradeFund.Rows.Count > 0)
                             {
                                 dr["FmemoText"] += tradeFund.Rows[0]["duoFund"].ToString();
@@ -1305,9 +1525,9 @@ namespace CFT.CSOMS.BLL.FundModule
             return null;
         }
 
-        private DataTable QueryTradeFundInfoPro(string spId, string listid)
+        private DataTable QueryTradeFundInfoPro(string Tradeid,string spId, string listid)
         {
-            var tradeFund = QueryTradeFundInfo(spId, listid);
+            var tradeFund = QueryTradeFundInfo(Tradeid,spId, listid);
             if (tradeFund != null && tradeFund.Rows.Count > 0)
             {
                 tradeFund.Columns.Add("duoFund", typeof(string));
@@ -1337,16 +1557,16 @@ namespace CFT.CSOMS.BLL.FundModule
         }
 
         #region 理财通定投和定赎
-        public DataTable Get_DT_fundBuyPlan(string uid, int offset, int limit)
+        public DataTable Get_DT_fundBuyPlan(string Tradeid, string uid, int offset, int limit)
         {
             FundInfoData data = new FundInfoData();
-            DataTable dt = data.Get_DT_fundBuyPlan(uid, offset, limit);
+            DataTable dt = data.Get_DT_fundBuyPlan(Tradeid,uid, offset, limit);
             if (dt != null && dt.Rows.Count > 0)
             {
                 dt.Columns.Add("Ffund_name", typeof(string));
                 foreach (DataRow dr in dt.Rows)
                 {
-                    dr["Ffund_name"] = GetFundName(dr["Fspid"].ToString());
+                    dr["Ffund_name"] = GetFundName(dr["Fspid"].ToString(), dr["Ffund_code"].ToString());
                     dr["Ftotal_plan_fee"] = MoneyTransfer.FenToYuan(dr["Ftotal_plan_fee"].ToString());
                     dr["Fplan_fee"] = MoneyTransfer.FenToYuan(dr["Fplan_fee"].ToString());
                     dr["Ftotal_buy_fee"] = MoneyTransfer.FenToYuan(dr["Ftotal_buy_fee"].ToString());
@@ -1379,10 +1599,10 @@ namespace CFT.CSOMS.BLL.FundModule
             return dt;
         }
 
-        public DataTable Get_DT_fundBuyPlanByPlanid(string uid, string plan_id)
+        public DataTable Get_DT_fundBuyPlanByPlanid(string Tradeid,string uid, string plan_id)
         {
             FundInfoData data = new FundInfoData();
-            DataTable dt = data.Get_DT_fundBuyPlanByPlanid(uid, plan_id);
+            DataTable dt = data.Get_DT_fundBuyPlanByPlanid(Tradeid,uid, plan_id);
             if (dt != null && dt.Rows.Count > 0)
             {
                 foreach (DataRow dr in dt.Rows)
@@ -1400,16 +1620,16 @@ namespace CFT.CSOMS.BLL.FundModule
             return dt;
         }
 
-        public DataTable Get_DT_PlanBuyOrder(string uid, string plan_id, int offset, int limit)
+        public DataTable Get_DT_PlanBuyOrder(string Tradeid,string uid, string plan_id, int offset, int limit)
         {
             FundInfoData data = new FundInfoData();
-            DataTable dt = data.Get_DT_PlanBuyOrder(uid, plan_id, offset, limit);
+            DataTable dt = data.Get_DT_PlanBuyOrder(Tradeid,uid, plan_id, offset, limit);
             if (dt != null && dt.Rows.Count > 0)
             {
                 dt.Columns.Add("Ffund_name", typeof(string));
                 foreach (DataRow dr in dt.Rows)
                 {
-                    dr["Ffund_name"] = GetFundName(dr["Fspid"].ToString());
+                    dr["Ffund_name"] = GetFundName(dr["Fspid"].ToString(), dr["Ffund_code"].ToString());
                     dr["Ftotal_fee"] = MoneyTransfer.FenToYuan(dr["Ftotal_fee"].ToString());
                     string Fstate = dr["Fstate"].ToString();
                     dr["Fstate"] = Fstate == "0" ? "初始单,用户未确认" :
@@ -1431,8 +1651,9 @@ namespace CFT.CSOMS.BLL.FundModule
 
         public DataTable Get_HFD_FundFetchPlan(string uin, int offset, int limit)
         {
+            string Tradeid = GetTradeIdByUIN(uin);
             FundInfoData data = new FundInfoData();
-            DataTable dt = data.Get_HFD_FundFetchPlan(uin, offset, limit);
+            DataTable dt = data.Get_HFD_FundFetchPlan(Tradeid, uin, offset, limit);
             if (dt != null && dt.Rows.Count > 0)
             {
                 dt.Columns.Add("Ffund_name", typeof(string));
@@ -1441,8 +1662,8 @@ namespace CFT.CSOMS.BLL.FundModule
 
                 foreach (DataRow dr in dt.Rows)
                 {
-                    dr["Ffund_name"] = GetFundName(dr["Fspid"].ToString());
-                    string Ffund_name_list = GetFundNameList(dr["Fspid_list"].ToString());
+                    dr["Ffund_name"] = GetFundName(dr["Fspid"].ToString(), dr["Ffund_code"].ToString());
+                    string Ffund_name_list = GetFundNameList(dr["Fspid_list"].ToString(), dr["Ffund_code_list"].ToString());
                     dr["Ffund_name_list"] = Ffund_name_list;
                     dr["Ffund_name_list1"] = Ffund_name_list.Length > 10 ? (Ffund_name_list.Substring(0, 10) + "...") : Ffund_name_list;
 
@@ -1496,8 +1717,9 @@ namespace CFT.CSOMS.BLL.FundModule
         }
         public DataTable Get_HFD_FundFetchPlanByPlanid(string uin, string plan_id)
         {
+            string Tradeid = GetTradeIdByUIN(uin);
             FundInfoData data = new FundInfoData();
-            DataTable dt = data.Get_HFD_FundFetchPlanByPlanid(uin, plan_id);
+            DataTable dt = data.Get_HFD_FundFetchPlanByPlanid(Tradeid, uin, plan_id);
 
             if (dt != null && dt.Rows.Count > 0)
             {
@@ -1520,7 +1742,7 @@ namespace CFT.CSOMS.BLL.FundModule
             }
             return dt;
         }
-        public DataTable Get_HFD_PlanFetchOrder(string PROJECT, string uid, string plan_id, int offset, int limit)
+        public DataTable Get_HFD_PlanFetchOrder(string Tradeid,string PROJECT, string uid, string plan_id, int offset, int limit)
         {
             string bussi_type = "";
             if (PROJECT == "HFD")
@@ -1533,13 +1755,13 @@ namespace CFT.CSOMS.BLL.FundModule
             }
 
             FundInfoData data = new FundInfoData();
-            DataTable dt = data.Get_HFD_PlanFetchOrder(bussi_type, uid, plan_id, offset, limit);
+            DataTable dt = data.Get_HFD_PlanFetchOrder(Tradeid,bussi_type, uid, plan_id, offset, limit);
             if (dt != null && dt.Rows.Count > 0)
             {
                 dt.Columns.Add("Ffund_name", typeof(string));
                 foreach (DataRow dr in dt.Rows)
                 {
-                    dr["Ffund_name"] = GetFundName(dr["Fspid"].ToString());
+                    dr["Ffund_name"] = GetFundName(dr["Fspid"].ToString(), dr["Ffund_code"].ToString());
                     dr["Ftotal_fee"] = MoneyTransfer.FenToYuan(dr["Ftotal_fee"].ToString());
                     dr["Ftotal_transfer_fee"] = MoneyTransfer.FenToYuan(dr["Ftotal_transfer_fee"].ToString());
 
@@ -1576,8 +1798,9 @@ namespace CFT.CSOMS.BLL.FundModule
         #region 梦想计划
         public DataTable Get_DreamProject_Plan(string uin, int offset, int limit)
         {
+            string Tradeid = GetTradeIdByUIN(uin);
             FundInfoData data = new FundInfoData();
-            DataTable dt = data.Get_DreamProject_Plan(uin, offset, limit);
+            DataTable dt = data.Get_DreamProject_Plan(Tradeid, uin, offset, limit);
 
             if (dt != null && dt.Rows.Count > 0)
             {
@@ -1605,7 +1828,7 @@ namespace CFT.CSOMS.BLL.FundModule
                 dt.Columns.Add("FundName", typeof(string));
                 foreach (DataRow dr in dt.Rows)
                 {
-                    dr["FundName"] = GetFundName(dr["Fspid"].ToString());
+                    dr["FundName"] = GetFundName(dr["Fspid"].ToString(), dr["Ffund_code"].ToString());
                     dr["Ftotal_fee"] = MoneyTransfer.FenToYuan(dr["Ftotal_fee"].ToString());
 
                     string Ftype = dr["Ftype"].ToString();
@@ -1634,7 +1857,7 @@ namespace CFT.CSOMS.BLL.FundModule
                 dt.Columns.Add("FundName", typeof(string));
                 foreach (DataRow dr in dt.Rows)
                 {
-                    dr["FundName"] = GetFundName(dr["Fspid"].ToString());
+                    dr["FundName"] = GetFundName(dr["Fspid"].ToString(), dr["Ffund_code"].ToString());
                     string fund_code = dr["Ffund_code"].ToString();
                     string spid = dr["Fspid"].ToString();
 
@@ -1686,9 +1909,9 @@ namespace CFT.CSOMS.BLL.FundModule
             dt.Columns.Add("Ffrom_fund_name", typeof(string));
 
             foreach (DataRow dr in dt.Rows)
-            {
-                dr["Freserve_fund_name"] = GetFundName(dr["Freserve_spid"].ToString());
-                dr["Ffrom_fund_name"] = GetFundName(dr["Ffrom_spid"].ToString());
+            {   
+                dr["Freserve_fund_name"] = GetFundName(dr["Freserve_spid"].ToString(), dr["Freserve_fund_code"].ToString());
+                dr["Ffrom_fund_name"] = GetFundName(dr["Ffrom_spid"].ToString(), dr["Ffrom_fund_code"].ToString());
 
                 dr["Ftotal_fee"] = MoneyTransfer.FenToYuan(dr["Ftotal_fee"].ToString());
                 string state = dr["Fstate"].ToString();
@@ -1717,8 +1940,8 @@ namespace CFT.CSOMS.BLL.FundModule
             dt.Columns.Add("FstateStr", typeof(string));
             foreach (DataRow dr in dt.Rows)
             {
-                dr["Fori_fund_name"] = GetFundName(dr["Fori_spid"].ToString());
-                dr["Fnew_fund_name"] = GetFundName(dr["Fnew_spid"].ToString());
+                dr["Fori_fund_name"] = GetFundName(dr["Fori_spid"].ToString(), dr["Fori_fund_code"].ToString());
+                dr["Fnew_fund_name"] = GetFundName(dr["Fnew_spid"].ToString(), dr["Fnew_fund_code"].ToString());
                 string Fstate = dr["Fstate"].ToString().Trim();
                 dr["FstateStr"] = Fstate == "0" ? "初始（如果流程中断这个初始态是一种最终态）" :
                                   Fstate == "1" ? "申购申请成功" :
@@ -1772,11 +1995,11 @@ namespace CFT.CSOMS.BLL.FundModule
             return Fchannel_id;
         }
 
-        public string GetFundName(string Spid)
+        public string GetFundName(string Spid, string fundcode)
         {
             try
             {
-                var FundInfoBySpidTable = new FundInfoData().QueryFundInfoBySpid(Spid);//查Fcurtype及基金名称
+                var FundInfoBySpidTable = new FundInfoData().QueryFundInfoBySpid(Spid,fundcode);//查Fcurtype及基金名称
 
                 if (FundInfoBySpidTable != null && FundInfoBySpidTable.Rows.Count > 0)
                 {
@@ -1792,40 +2015,52 @@ namespace CFT.CSOMS.BLL.FundModule
                 return Spid;
             }
         }
-        private string GetFundNameList(string spidlist)
+        private string GetFundNameList(string spidlist, string fundcodelist)
         {
-            string Fund_Namelist = "";
-            string[] spids = spidlist.Split(',');
-            foreach (string item in spids)
+            try
             {
-                if (!string.IsNullOrEmpty(item))
+                string Fund_Namelist = "";
+                string[] spids = spidlist.Split(',');
+                string[] fundcodes = fundcodelist.Split(',');
+                for (int i = 0; i < spids.Length; i++)
                 {
-                    var FundInfoBySpidTable = new FundInfoData().QueryFundInfoBySpid(item);//查Fcurtype及基金名称
-                    if (FundInfoBySpidTable != null && FundInfoBySpidTable.Rows.Count > 0)
+                    string spid = spids[i].Trim();
+                    string fundcode = fundcodes[i].Trim();
+                    if (!string.IsNullOrEmpty(spid) && !string.IsNullOrEmpty(fundcode))
                     {
-                        if (Fund_Namelist == "")
+
+                        var FundInfoBySpidTable = new FundInfoData().QueryFundInfoBySpid(spid, fundcode);//查Fcurtype及基金名称
+                        if (FundInfoBySpidTable != null && FundInfoBySpidTable.Rows.Count > 0)
                         {
-                            Fund_Namelist = FundInfoBySpidTable.Rows[0]["Ffund_name"].ToString();
+                            if (Fund_Namelist == "")
+                            {
+                                Fund_Namelist = FundInfoBySpidTable.Rows[0]["Ffund_name"].ToString();
+                            }
+                            else
+                            {
+                                Fund_Namelist += "," + FundInfoBySpidTable.Rows[0]["Ffund_name"].ToString();
+                            }
                         }
                         else
                         {
-                            Fund_Namelist += "," + FundInfoBySpidTable.Rows[0]["Ffund_name"].ToString();
-                        }
-                    }
-                    else 
-                    {
-                        if (Fund_Namelist == "")
-                        {
-                            Fund_Namelist = item;
-                        }
-                        else
-                        {
-                            Fund_Namelist += "," + item;
+                            if (Fund_Namelist == "")
+                            {
+                                Fund_Namelist = spid;
+                            }
+                            else
+                            {
+                                Fund_Namelist += "," + spid;
+                            }
                         }
                     }
                 }
+                return Fund_Namelist;
             }
-            return Fund_Namelist;
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+           
         }
     }
 }

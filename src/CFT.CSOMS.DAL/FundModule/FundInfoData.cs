@@ -33,7 +33,7 @@ namespace CFT.CSOMS.DAL.FundModule
             while (true)
             {
                 string requestTextTemp = string.Format(requestText, pageindex * limit, limit);
-                DataSet dsTemp = RelayAccessFactory.GetDSFromRelayFromXML(requestTextTemp, "100769", serverIp, serverPort);
+                DataSet dsTemp = RelayAccessFactory.GetDSFromRelayFromXML(requestTextTemp, "102759", serverIp, serverPort);//100769
                 if (dsTemp != null && dsTemp.Tables.Count > 0 && dsTemp.Tables[0].Rows.Count > 0)
                 {
                     ds = PublicRes.ToOneDataset(dsTemp, ds);
@@ -54,7 +54,7 @@ namespace CFT.CSOMS.DAL.FundModule
         }
 
         //通过商户号查询基金公司信息
-        public DataTable QueryFundInfoBySpid(string spid)
+        public DataTable QueryFundInfoBySpid(string spid,string fundcode)
         {
             //if (string.IsNullOrEmpty(spid))
             //    throw new ArgumentNullException("spid");
@@ -68,8 +68,8 @@ namespace CFT.CSOMS.DAL.FundModule
             //}
 
             DataTable dt = null;
-            string requestText = "reqid=659&flag=1&fields=spid:" + spid;
-            DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "100769", serverIp, serverPort);
+            string requestText = "reqid=659&flag=1&fields=spid:" + spid + "|fund_code:" + fundcode;
+            DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "102759", serverIp, serverPort);//100769
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
                 dt = ds.Tables[0];
@@ -78,7 +78,7 @@ namespace CFT.CSOMS.DAL.FundModule
         }
        
         //判断是否重新申购基金
-        public bool QueryIfAnewBoughtFund(string listid, DateTime time)
+        public bool QueryIfAnewBoughtFund(string Tradeid, string listid, DateTime time)
         {
             //using (var da = MySQLAccessFactory.GetMySQLAccess("Fund"))
             //{
@@ -97,7 +97,7 @@ namespace CFT.CSOMS.DAL.FundModule
 
             var serverIp = System.Configuration.ConfigurationManager.AppSettings["FundRateIP"].ToString();
             var serverPort = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings["FundRatePort"].ToString());
-            string requestText = "reqid=680&flag=1&fields=order_time:" + time.ToString("yyyy-MM-dd") + "|fund_apply_id:" + listid;
+            string requestText = "route_type=tradeid&route_tradeid=" + Tradeid + "&reqid=680&flag=1&fields=order_time:" + time.ToString("yyyy-MM-dd") + "|fund_apply_id:" + listid;
             DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "100769", serverIp, serverPort);
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
@@ -107,7 +107,7 @@ namespace CFT.CSOMS.DAL.FundModule
         }
 
         //通过商户号+订单号（若为提现单则是后18位）查询基金交易单
-        public DataTable QueryTradeFundInfo(string spid, string listid)
+        public DataTable QueryTradeFundInfo(string Tradeid,string spid, string listid)
         {
             //if (string.IsNullOrEmpty(spid.Trim()))
             //    throw new ArgumentNullException("spid");
@@ -125,7 +125,7 @@ namespace CFT.CSOMS.DAL.FundModule
 
            // listid可以唯一标识，不需要新增spid的判断
             DataTable dt = null;
-            string requestText = "reqid=665&flag=1&fields=listid:" + listid;
+            string requestText = "route_type=tradeid&route_tradeid=" + Tradeid + "&reqid=665&flag=1&fields=listid:" + listid;
             DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "100769", serverIp, serverPort);
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
@@ -157,7 +157,7 @@ namespace CFT.CSOMS.DAL.FundModule
             if (string.IsNullOrEmpty(fundCode))
                 throw new ArgumentNullException("fundCode");
             DataTable dt = null;
-            string requestText = "reqid=681&flag=2&offset={0}&limit={1}&fields=trade_id:{2}|fund_code:{3}|begin_time:{4}|end_time:{5}";
+            string requestText = "route_type=tradeid&route_tradeid=" + tradeId + "&reqid=681&flag=2&offset={0}&limit={1}&fields=trade_id:{2}|fund_code:{3}|begin_time:{4}|end_time:{5}";
             requestText = string.Format(requestText, currentPageIndex, pageSize, tradeId, fundCode, beginDateStr, endDateStr);
             DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "100769", serverIp, serverPort);
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
@@ -193,7 +193,7 @@ namespace CFT.CSOMS.DAL.FundModule
                 requestText += "|end_day:" + endDateStr;
             }
 
-            DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "100769", serverIp, serverPort);
+            DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "102759", serverIp, serverPort);//100769
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
             {
                 dt = ds.Tables[0];
@@ -204,11 +204,11 @@ namespace CFT.CSOMS.DAL.FundModule
         }
 
         #region 定投
-        
+
         //定投计划表
-        public DataTable Get_DT_fundBuyPlan(string uid, int offset, int limit)
+        public DataTable Get_DT_fundBuyPlan(string Tradeid, string uid, int offset, int limit)
         {
-            string requestText = "reqid=712&flag=2&offset={0}&limit={1}&fields=uid:{2}";
+            string requestText = "route_type=tradeid&route_tradeid=" + Tradeid + "&reqid=712&flag=2&offset={0}&limit={1}&fields=uid:{2}";
             requestText = string.Format(requestText, offset, limit, uid);
             DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "100769", serverIp, serverPort);
             DataTable dt = null;
@@ -216,7 +216,7 @@ namespace CFT.CSOMS.DAL.FundModule
             {
                 dt = ds.Tables[0];
             }
-            else 
+            else
             {
                 throw new LogicException("查询数据为空");
             }
@@ -224,9 +224,9 @@ namespace CFT.CSOMS.DAL.FundModule
 
         }
         //定投计划表 单个
-        public DataTable Get_DT_fundBuyPlanByPlanid(string uid, string plan_id)
+        public DataTable Get_DT_fundBuyPlanByPlanid(string Tradeid, string uid, string plan_id)
         {
-            string requestText = "reqid=714&flag=1&fields=uid:{0}|plan_id:{1}";
+            string requestText = "route_type=tradeid&route_tradeid=" + Tradeid + "&reqid=714&flag=1&fields=uid:{0}|plan_id:{1}";
             requestText = string.Format(requestText, uid, plan_id);
 
             DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "100769", serverIp, serverPort);
@@ -242,9 +242,9 @@ namespace CFT.CSOMS.DAL.FundModule
             return dt;
         }
         /// 定投交易单
-        public DataTable Get_DT_PlanBuyOrder(string uid, string plan_id, int offset, int limit)
+        public DataTable Get_DT_PlanBuyOrder(string Tradeid, string uid, string plan_id, int offset, int limit)
         {
-            string requestText = "reqid=713&flag=2&offset={0}&limit={1}&fields=uid:{2}|plan_id:{3}";
+            string requestText = "route_type=tradeid&route_tradeid=" + Tradeid + "&reqid=713&flag=2&offset={0}&limit={1}&fields=uid:{2}|plan_id:{3}";
             requestText = string.Format(requestText, offset, limit, uid, plan_id);
             DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "100769", serverIp, serverPort);
             DataTable dt = null;
@@ -261,9 +261,9 @@ namespace CFT.CSOMS.DAL.FundModule
         #endregion
 
         #region 定赎
-        public DataTable Get_HFD_FundFetchPlan(string uin, int offset, int limit)
+        public DataTable Get_HFD_FundFetchPlan(string Tradeid, string uin, int offset, int limit)
         {
-            string requestText = "reqid=717&flag=2&offset={0}&limit={1}&fields=uin:{2}";
+            string requestText = "route_type=tradeid&route_tradeid=" + Tradeid + "&reqid=717&flag=2&offset={0}&limit={1}&fields=uin:{2}";
             requestText = string.Format(requestText, offset, limit, uin);
             DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "100769", serverIp, serverPort);
             DataTable dt = null;
@@ -278,9 +278,9 @@ namespace CFT.CSOMS.DAL.FundModule
             return dt;
         }
 
-        public DataTable Get_HFD_FundFetchPlanByPlanid(string uin, string plan_id)
+        public DataTable Get_HFD_FundFetchPlanByPlanid(string Tradeid, string uin, string plan_id)
         {
-            string requestText = "reqid=715&flag=1&fields=uin:{0}|plan_id:{1}";
+            string requestText = "route_type=tradeid&route_tradeid=" + Tradeid + "&reqid=715&flag=1&fields=uin:{0}|plan_id:{1}";
             requestText = string.Format(requestText, uin, plan_id);
              
             DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "100769", serverIp, serverPort);
@@ -296,7 +296,7 @@ namespace CFT.CSOMS.DAL.FundModule
             return dt;
         }
 
-        public DataTable Get_HFD_PlanFetchOrder(string bussi_type,string uid, string plan_id, int offset, int limit)
+        public DataTable Get_HFD_PlanFetchOrder(string Tradeid,string bussi_type,string uid, string plan_id, int offset, int limit)
         {
 
             /*<request>
@@ -321,7 +321,7 @@ namespace CFT.CSOMS.DAL.FundModule
         ORDER BY Fcreate_time DESC \
     </sql>
 </request>*/
-            string requestText = "reqid=718&flag=2&offset={0}&limit={1}&fields=uid:{2}|plan_id:{3}|bussi_type:{4}";
+            string requestText = "route_type=tradeid&route_tradeid=" + Tradeid + "&reqid=718&flag=2&offset={0}&limit={1}&fields=uid:{2}|plan_id:{3}|bussi_type:{4}";
             requestText = string.Format(requestText, offset, limit, uid, plan_id, bussi_type);
             DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "100769", serverIp, serverPort);
             DataTable dt = null;
@@ -345,9 +345,9 @@ namespace CFT.CSOMS.DAL.FundModule
         /// <param name="offset"></param>
         /// <param name="limit"></param>
         /// <returns></returns>
-        public DataTable Get_DreamProject_Plan(string uin, int offset, int limit) 
+        public DataTable Get_DreamProject_Plan(string Tradeid, string uin, int offset, int limit) 
         { 
-            string requestText = "reqid=751&flag=2&offset={0}&limit={1}&fields=uin:{2}";
+            string requestText = "route_type=tradeid&route_tradeid=" + Tradeid + "&reqid=751&flag=2&offset={0}&limit={1}&fields=uin:{2}";
             requestText = string.Format(requestText, offset, limit, uin);
             DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "100769", serverIp, serverPort);
             DataTable dt = null;
@@ -371,7 +371,7 @@ namespace CFT.CSOMS.DAL.FundModule
         /// <returns></returns>
         public DataTable Get_DreamProject_trans(string plan_id, string trade_id, int offset, int limit)
         {
-            string requestText = "reqid=753&flag=2&offset={0}&limit={1}&fields=trade_id:{2}|plan_id:{3}";
+            string requestText = "route_type=tradeid&route_tradeid=" + trade_id + "&reqid=753&flag=2&offset={0}&limit={1}&fields=trade_id:{2}|plan_id:{3}";
             requestText = string.Format(requestText, offset, limit, trade_id, plan_id);
             DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "100769", serverIp, serverPort);
             DataTable dt = null;
@@ -395,7 +395,7 @@ namespace CFT.CSOMS.DAL.FundModule
         /// <returns></returns>
         public DataTable Get_DreamProject_asset(string plan_id, string trade_id, int offset, int limit)
         {
-            string requestText = "reqid=755&flag=2&offset={0}&limit={1}&fields=trade_id:{2}|plan_id:{3}";
+            string requestText = "route_type=tradeid&route_tradeid=" + trade_id + "&reqid=755&flag=2&offset={0}&limit={1}&fields=trade_id:{2}|plan_id:{3}";
             requestText = string.Format(requestText, offset, limit, trade_id, plan_id);
             DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "100769", serverIp, serverPort);
             DataTable dt = null;
@@ -420,7 +420,7 @@ namespace CFT.CSOMS.DAL.FundModule
         /// <returns></returns>
         public DataTable Get_DreamProject_controlasset(string trade_id, string spid, string fund_code)
         {
-            string requestText = "reqid=756&flag=2&offset={0}&limit={1}&fields=trade_id:{2}|spid:{3}|fund_code:{4}";
+            string requestText = "route_type=tradeid&route_tradeid=" + trade_id + "&reqid=756&flag=2&offset={0}&limit={1}&fields=trade_id:{2}|spid:{3}|fund_code:{4}";
             requestText = string.Format(requestText, 0, 1, trade_id, spid, fund_code);
             DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "100769", serverIp, serverPort);
             DataTable dt = null;
@@ -439,7 +439,7 @@ namespace CFT.CSOMS.DAL.FundModule
         public DataTable GetLCTReserveOrder(string trade_id, string listid, string stime, string etime, int offset, int limit)
         {
             //20151102870920001000
-            string requestText = "reqid=710&flag=2&offset={0}&limit={1}&fields=trade_id:{2}";
+            string requestText = "route_type=tradeid&route_tradeid=" + trade_id + "&reqid=710&flag=2&offset={0}&limit={1}&fields=trade_id:{2}";
             requestText = string.Format(requestText, offset, limit, trade_id);
             if (!string.IsNullOrEmpty(listid))
             {
@@ -487,7 +487,7 @@ namespace CFT.CSOMS.DAL.FundModule
  
              </request>*/
 
-            string requestText = "reqid=628&flag=1&fields=trade_id:" + trade_id;
+            string requestText = "route_type=tradeid&route_tradeid=" + trade_id + "&reqid=628&flag=1&fields=trade_id:" + trade_id;
             if (!string.IsNullOrEmpty(buy_id))
             {
                 requestText += "|buy_id:" + buy_id;
@@ -539,7 +539,7 @@ namespace CFT.CSOMS.DAL.FundModule
             //request:&fields=trade_id:20150908000028213|due_date:20160408&flag=2&limit=2&offset=0&reqid=759
 
             string due_date = Fdue_date.ToString("yyyyMMdd");
-            string requestText = "reqid=759&flag=2&offset=" + offset +
+            string requestText = "route_type=tradeid&route_tradeid=" + trade_id + "&reqid=759&flag=2&offset=" + offset +
                 "&limit=" + limit + "&fields=trade_id:" + trade_id + "|due_date:" + due_date;
            
             requestText += "&MSG_NO=100769759" + DateTime.Now.ToString("yyyyMMddHHmmss");

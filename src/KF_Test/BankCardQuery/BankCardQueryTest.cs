@@ -20,13 +20,14 @@ namespace KF_Test
         {
             string ip = System.Configuration.ConfigurationManager.AppSettings["BankInfoIP"].ToString();
             int port = int.Parse(System.Configuration.ConfigurationManager.AppSettings["BankInfoPort"].ToString());
+            int totalnum;
             //快捷
             string requestString = "biz_type=FASTPAY&query_mode=1&query_type=1&specified_attrs=bank_type|bank_name&limit=200&offset=0";
-            DataSet ds = RelayAccessFactory.GetBankInfoFromRelay(requestString, "6508", ip, port, false, false, relayDefaultSPId);
+            DataSet ds = RelayAccessFactory.GetBankInfoFromRelay(out totalnum, requestString, "6508", ip, port, false, false, relayDefaultSPId);
 
             //一点通
             requestString = "biz_type=ONECLICK&query_mode=1&query_type=1&specified_attrs=bank_type|bank_name&limit=200&offset=0";
-            DataSet dsex = RelayAccessFactory.GetBankInfoFromRelay(requestString, "6508", ip, port, false, false, relayDefaultSPId);
+            DataSet dsex = RelayAccessFactory.GetBankInfoFromRelay(out totalnum, requestString, "6508", ip, port, false, false, relayDefaultSPId);
         }
 
         /// <summary>

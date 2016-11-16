@@ -98,8 +98,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.CreditPay
                     sb.Append("\"credit_freeze\":").Append("\"0\",");
                     sb.Append("\"credit_line\":").Append("\"20000\",");
                     sb.Append("\"credit_used\":").Append("\"4496\",");
-                    sb.Append("\"id_card_no\":").Append("\"1\",");
-                    sb.Append("\"cur_type\":").Append("\"430 * **********0914\",");
+                    sb.Append("\"id_card_no\":").Append("\"430 * **********0914\",");
+                    sb.Append("\"cur_type\":").Append("\"1\",");
                     sb.Append("\"id_card_type\":").Append("\"身份证\",");
                     sb.Append("\"is_never_pay\":").Append("\"0\",");
                     sb.Append("\"is_overdue\":").Append("\"未逾期\",");
@@ -110,7 +110,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.CreditPay
                     sb.Append("\"status\":").Append("\"开户成功，可正常使用\"");
                     sb.Append("}");
                     //sb.Append("]");
-                    returnResult = sb.ToString();// tencentCreditService.LoadAccountInfo(accountNo, accountType, out searchResult, out errorMessage);                    
+                    returnResult =  tencentCreditService.LoadAccountInfo(accountNo, accountType, out searchResult, out errorMessage);                    
                 }
                 else
                 {
