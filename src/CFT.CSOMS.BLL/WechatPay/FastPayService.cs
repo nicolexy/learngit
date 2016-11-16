@@ -159,19 +159,6 @@ namespace CFT.CSOMS.BLL.WechatPay
                 {
                     string requsetstr = string.Format(requestString, limit, offset);
                     DataSet dsTemp = RelayAccessFactory.GetBankInfoFromRelay(out totalNum, requsetstr, "6508", ip, port, false, false, relayDefaultSPId);
-                    int left = totalNum - (offset + limit);
-                    if (left <= 0) break;
-
-                    if (left >= limit)
-                    {
-                        offset += limit;
-                    }
-                    else
-                    {
-                        offset += limit;
-                        limit = left;
-                    }
-
                     if (dsTemp != null && dsTemp.Tables.Count > 0 && dsTemp.Tables[0].Rows.Count > 0)
                     {
                         foreach (DataRow dr in dsTemp.Tables[0].Rows)
@@ -192,6 +179,18 @@ namespace CFT.CSOMS.BLL.WechatPay
                         break;
                     }
 
+                    int left = totalNum - (offset + limit);
+                    if (left <= 0) break;
+
+                    if (left >= limit)
+                    {
+                        offset += limit;
+                    }
+                    else
+                    {
+                        offset += limit;
+                        limit = left;
+                    }
                 }
             });
             string requestStr = "biz_type=FASTPAY&query_mode=1&query_type=1&specified_attrs=bank_type|bank_name&limit={0}&offset={1}";
