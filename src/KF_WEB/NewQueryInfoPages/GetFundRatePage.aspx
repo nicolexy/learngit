@@ -202,7 +202,7 @@
                     <ItemStyle HorizontalAlign="Center" ForeColor="#4A3C8C" BackColor="#E7E7FF"></ItemStyle>
                     <HeaderStyle Font-Bold="True" HorizontalAlign="Center" ForeColor="#F7F7F7" BackColor="#4A3C8C"></HeaderStyle>
                     <Columns>
-                        <asp:BoundColumn DataField="Fspid" HeaderText="Fspid" Visible="false"></asp:BoundColumn>
+                        <asp:BoundColumn DataField="Fspid" HeaderText="商户号"></asp:BoundColumn>
                         <asp:BoundColumn DataField="Fcurtype" HeaderText="Fcurtype" Visible="false"></asp:BoundColumn>
                         <asp:BoundColumn DataField="fund_code" HeaderText="基金代码" Visible="false">
                             <HeaderStyle Width="80px"></HeaderStyle>

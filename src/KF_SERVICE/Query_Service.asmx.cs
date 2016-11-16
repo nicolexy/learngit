@@ -457,112 +457,112 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
         }
 
-        private string QueryTradeFundInfo(string spId, string listid)
-        {
-            string duoFund = "";
-            var tradeFund = new FundService().QueryTradeFundInfo(spId, listid);
-            if (tradeFund != null && tradeFund.Rows.Count > 0)
-            {
-                string fundName = tradeFund.Rows[0]["Ffund_name"].ToString();
-                string tmp = tradeFund.Rows[0]["Fpur_type"].ToString();
-                if (tmp == "11")
-                    duoFund = "(" + fundName + "转入)";
-                if (tmp == "12")
-                    duoFund = "(转出至" + fundName + ")";
-            }
-            return duoFund;
-        }
+        //private string QueryTradeFundInfo(string spId, string listid)
+        //{
+        //    string duoFund = "";
+        //    var tradeFund = new FundService().QueryTradeFundInfo(spId, listid);
+        //    if (tradeFund != null && tradeFund.Rows.Count > 0)
+        //    {
+        //        string fundName = tradeFund.Rows[0]["Ffund_name"].ToString();
+        //        string tmp = tradeFund.Rows[0]["Fpur_type"].ToString();
+        //        if (tmp == "11")
+        //            duoFund = "(" + fundName + "转入)";
+        //        if (tmp == "12")
+        //            duoFund = "(转出至" + fundName + ")";
+        //    }
+        //    return duoFund;
+        //}
 
-        [WebMethod(Description = "子帐户资金流水查询函数(整合了页面逻辑)")]
-        [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
-        public DataSet GetChildrenBankRollListEx(string qqId, DateTime beginTime, DateTime endTime, string spId, int pageIndex, int pageMax, int fType, string fMemo)
-        {
-            try
-            {
-                int start = pageMax * (pageIndex - 1);
-                if (string.IsNullOrEmpty(spId))
-                    throw new Exception(string.Format("无法同时查询所有基金的流水信息，请选择指定的基金"));
+        //[WebMethod(Description = "子帐户资金流水查询函数(整合了页面逻辑)")]
+        //[SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]
+        //public DataSet GetChildrenBankRollListEx(string qqId, DateTime beginTime, DateTime endTime, string spId, int pageIndex, int pageMax, int fType, string fMemo)
+        //{
+        //    try
+        //    {
+        //        int start = pageMax * (pageIndex - 1);
+        //        if (string.IsNullOrEmpty(spId))
+        //            throw new Exception(string.Format("无法同时查询所有基金的流水信息，请选择指定的基金"));
 
-                var fundInfo = FundService.GetAllFundInfo().Where(i => i.SPId == spId);
+        //        var fundInfo = FundService.GetAllFundInfo().Where(i => i.SPId == spId);
 
-                if (fundInfo.Count() < 1)
-                    throw new Exception(string.Format("找不到{0}对应的基金信息", spId));
+        //        if (fundInfo.Count() < 1)
+        //            throw new Exception(string.Format("找不到{0}对应的基金信息", spId));
 
-                var bankRollList = GetChildrenBankRollList(qqId, beginTime, endTime, fundInfo.First().CurrencyType.ToString(), start + 1, pageMax, fType, fMemo);
+        //        var bankRollList = GetChildrenBankRollList(qqId, beginTime, endTime, fundInfo.First().CurrencyType.ToString(), start + 1, pageMax, fType, fMemo);
 
-                if (bankRollList.Tables != null && bankRollList.Tables.Count > 0)
-                {
-                    bankRollList.Tables[0].Columns.Add("FpaynumText", typeof(string));
-                    bankRollList.Tables[0].Columns.Add("FbalanceText", typeof(string));
-                    bankRollList.Tables[0].Columns.Add("FtypeText", typeof(string));
-                    bankRollList.Tables[0].Columns.Add("FmemoText", typeof(string));
-                    bankRollList.Tables[0].Columns.Add("FconStr", typeof(string));
+        //        if (bankRollList.Tables != null && bankRollList.Tables.Count > 0)
+        //        {
+        //            bankRollList.Tables[0].Columns.Add("FpaynumText", typeof(string));
+        //            bankRollList.Tables[0].Columns.Add("FbalanceText", typeof(string));
+        //            bankRollList.Tables[0].Columns.Add("FtypeText", typeof(string));
+        //            bankRollList.Tables[0].Columns.Add("FmemoText", typeof(string));
+        //            bankRollList.Tables[0].Columns.Add("FconStr", typeof(string));
 
-                    foreach (DataRow dr in bankRollList.Tables[0].Rows)
-                    {
-                        switch (dr["Ftype"].ToString())
-                        {
-                            case "1":
-                                dr["FtypeText"] = "入";
-                                break;
-                            case "2":
-                                dr["FtypeText"] = "出";
-                                break;
-                            case "3":
-                                dr["FtypeText"] = "冻结";
-                                break;
-                            case "4":
-                                dr["FtypeText"] = "解冻";
-                                break;
-                            default:
-                                dr["FtypeText"] = dr["Ftype"].ToString();
-                                break;
-                        }
+        //            foreach (DataRow dr in bankRollList.Tables[0].Rows)
+        //            {
+        //                switch (dr["Ftype"].ToString())
+        //                {
+        //                    case "1":
+        //                        dr["FtypeText"] = "入";
+        //                        break;
+        //                    case "2":
+        //                        dr["FtypeText"] = "出";
+        //                        break;
+        //                    case "3":
+        //                        dr["FtypeText"] = "冻结";
+        //                        break;
+        //                    case "4":
+        //                        dr["FtypeText"] = "解冻";
+        //                        break;
+        //                    default:
+        //                        dr["FtypeText"] = dr["Ftype"].ToString();
+        //                        break;
+        //                }
 
-                        switch (dr["Fmemo"].ToString())
-                        {
-                            case "余额宝子账户提现":
-                                dr["FmemoText"] = "提现";
-                                break;
-                            default:
-                                dr["FmemoText"] = dr["Fmemo"].ToString();
-                                break;
-                        }
+        //                switch (dr["Fmemo"].ToString())
+        //                {
+        //                    case "余额宝子账户提现":
+        //                        dr["FmemoText"] = "提现";
+        //                        break;
+        //                    default:
+        //                        dr["FmemoText"] = dr["Fmemo"].ToString();
+        //                        break;
+        //                }
 
-                        string duoFund = "";
-                        string listid = dr["Flistid"].ToString();
-                        if (dr["FmemoText"].ToString().Equals("基金申购"))
-                        {
-                            if (new FundService().IfAnewBoughtFund(dr["Flistid"].ToString(), dr["Fcreate_time"].ToString()))
-                            {
-                                dr["FmemoText"] = "重新申购";
-                            }
+        //                string duoFund = "";
+        //                string listid = dr["Flistid"].ToString();
+        //                if (dr["FmemoText"].ToString().Equals("基金申购"))
+        //                {
+        //                    if (new FundService().IfAnewBoughtFund(dr["Flistid"].ToString(), dr["Fcreate_time"].ToString()))
+        //                    {
+        //                        dr["FmemoText"] = "重新申购";
+        //                    }
 
-                            duoFund = QueryTradeFundInfo(spId, listid);//查询多基金转换
-                            dr["FmemoText"] += duoFund;
-                        }
+        //                    duoFund = QueryTradeFundInfo(spId, listid);//查询多基金转换
+        //                    dr["FmemoText"] += duoFund;
+        //                }
 
-                        if (dr["FmemoText"].ToString().Equals("提现"))
-                        {
-                            duoFund = QueryTradeFundInfo(spId, listid.Substring(listid.Length - 18));//查询多基金转换
-                            dr["FmemoText"] += duoFund;
-                        }
+        //                if (dr["FmemoText"].ToString().Equals("提现"))
+        //                {
+        //                    duoFund = QueryTradeFundInfo(spId, listid.Substring(listid.Length - 18));//查询多基金转换
+        //                    dr["FmemoText"] += duoFund;
+        //                }
 
-                        dr["FpaynumText"] = MoneyTransfer.FenToYuan(dr["Fpaynum"].ToString());
-                        dr["FbalanceText"] = MoneyTransfer.FenToYuan(dr["Fbalance"].ToString());
-                        dr["FconStr"] = MoneyTransfer.FenToYuan(dr["Fcon"].ToString());
-                    }
+        //                dr["FpaynumText"] = MoneyTransfer.FenToYuan(dr["Fpaynum"].ToString());
+        //                dr["FbalanceText"] = MoneyTransfer.FenToYuan(dr["Fbalance"].ToString());
+        //                dr["FconStr"] = MoneyTransfer.FenToYuan(dr["Fcon"].ToString());
+        //            }
 
-                    return bankRollList;
-                }
-            }
-            catch (Exception ex)
-            {
-                LogHelper.LogError("子帐户资金流水查询函数(整合了页面逻辑)  public DataSet GetChildrenBankRollListEx(string qqId, DateTime beginTime, DateTime endTime, string spId, int pageIndex, int pageMax, int fType, string fMemo)" + ex.ToString());
-                throw new Exception(string.Format("获取账户流水异常:{0}", ex));
-            }
-            return null;
-        }
+        //            return bankRollList;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        LogHelper.LogError("子帐户资金流水查询函数(整合了页面逻辑)  public DataSet GetChildrenBankRollListEx(string qqId, DateTime beginTime, DateTime endTime, string spId, int pageIndex, int pageMax, int fType, string fMemo)" + ex.ToString());
+        //        throw new Exception(string.Format("获取账户流水异常:{0}", ex));
+        //    }
+        //    return null;
+        //}
 
         [WebMethod(Description = "子帐户交易单查询函数")]
         [SoapHeader("myHeader", Direction = SoapHeaderDirection.In)]

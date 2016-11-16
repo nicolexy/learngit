@@ -13,7 +13,7 @@ namespace CFT.CSOMS.DAL.FundModule
     {
         //查询指数型基金（目前只有易方达沪深300基金）的每日单位净值和日涨跌字段
         //2016-1-14 v_yqyqguo 指数型基金查询最近有值记录
-        public DataTable QueryFundProfitRate(string spid, string fund_code)
+        public DataTable QueryFundProfitRate(string Tradeid, string spid, string fund_code)
         {
             //if (string.IsNullOrEmpty(spid))
             //    throw new ArgumentNullException("spid");
@@ -34,7 +34,7 @@ namespace CFT.CSOMS.DAL.FundModule
             DataTable dt = null;
             var serverIp = System.Configuration.ConfigurationManager.AppSettings["FundRateIP"].ToString();
             var serverPort = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings["FundRatePort"].ToString());
-            string requestText = "reqid=667&flag=2&offset=0&limit=1&fields=spid:{0}|fund_code:{1}";
+            string requestText = "route_type=tradeid&route_tradeid=" + Tradeid + "&reqid=667&flag=2&offset=0&limit=1&fields=spid:{0}|fund_code:{1}";
             requestText = string.Format(requestText, spid, fund_code);
             DataSet ds = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "100769", serverIp, serverPort);
             if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
@@ -80,7 +80,7 @@ namespace CFT.CSOMS.DAL.FundModule
             var serverPort = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings["FundRatePort"].ToString());
             string requestText = "reqid=623&flag=2&offset={0}&limit={1}&fields=trade_id:{2}|begin_time:{3}|end_time:{4}|spid:{5}";
             requestText = string.Format(requestText, limStart, limCount, tradeId, beginDateStr, endDateStr, spId);
-            DataSet ds1 = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "100769", serverIp, serverPort);
+            DataSet ds1 = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "102759", serverIp, serverPort);//100769
             if (ds1 != null && ds1.Tables.Count > 0 && ds1.Tables[0].Rows.Count > 0)
             {
                 dt = ds1.Tables[0];
@@ -118,7 +118,7 @@ namespace CFT.CSOMS.DAL.FundModule
             DataTable dt = null;
             var serverIp = System.Configuration.ConfigurationManager.AppSettings["FundRateIP"].ToString();
             var serverPort = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings["FundRatePort"].ToString());
-            string requestText = "reqid=678&flag=2&offset=0&limit=10&fields=trade_id:" + tradeId;
+            string requestText = "route_type=tradeid&route_tradeid=" + tradeId + "&reqid=678&flag=2&offset=0&limit=10&fields=trade_id:" + tradeId;
             if (!string.IsNullOrEmpty(spId))
             {
                 requestText += "|spid:" + spId;
@@ -128,7 +128,7 @@ namespace CFT.CSOMS.DAL.FundModule
                 requestText += "|curtype:" + currencyType;
             }
 
-            requestText = string.Format(requestText, tradeId, "2010-01-10", "2015-10-01", spId);
+            //requestText = string.Format(requestText, tradeId, "2010-01-10", "2015-10-01", spId);
             DataSet ds1 = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "100769", serverIp, serverPort);
             if (ds1 != null && ds1.Tables.Count > 0 && ds1.Tables[0].Rows.Count > 0)
             {
@@ -162,7 +162,7 @@ namespace CFT.CSOMS.DAL.FundModule
             DataTable dt = null;
             var serverIp = System.Configuration.ConfigurationManager.AppSettings["FundRateIP"].ToString();
             var serverPort = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings["FundRatePort"].ToString());
-            string requestText = "reqid=612&flag=2&offset={0}&limit={1}&fields=trade_id:{2}";
+            string requestText = "route_type=tradeid&route_tradeid=" + tradeId + "&reqid=612&flag=2&offset={0}&limit={1}&fields=trade_id:{2}";
             DataSet ds = new DataSet();
             int pageindex = 0;
             int limit = 20;

@@ -67,11 +67,11 @@ namespace CFT.CSOMS.BLL.ActivityModule
             new ActivityData().DelLctActivity(fid);
         }
 
-        //通过FUin找到用户参加活动的渠道号
-        public string GetChannelIDByFUid(string FUid)
-        {
-            return new ActivityData().GetChannelIDByFUId(FUid);
-        }
+        ////通过FUin找到用户参加活动的渠道号
+        //public string GetChannelIDByFUid(string FUid)
+        //{
+        //    return new ActivityData().GetChannelIDByFUId(FUid);
+        //}
 
         public DataSet QueryHandQActivity(string strListID, string strBegingTime, string strEndTime, int nStart, int nCount)
         {
