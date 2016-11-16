@@ -70,7 +70,7 @@ namespace CFT.CSOMS.DAL.Tests
 
             ActivityData service1 = new ActivityData();
 
-            string dd = service1.GetChannelIDByFUId("298686152");
+            string dd = service1.GetChannelIDByFUId("","298686152");
         }
 
         [TestMethod]
@@ -94,20 +94,20 @@ namespace CFT.CSOMS.DAL.Tests
             }
 
             FundInfoData service = new FundInfoData();
-            DataTable dt = service.QueryFundInfoBySpid("1219839601");
+            DataTable dt = service.QueryFundInfoBySpid("1219839601","");
         }
 
         [TestMethod]
         public void Testfund_661()
         {
             SafeCard service = new SafeCard();
-            DataTable dt = service.GetPayCardInfo("1563686969");
+            DataTable dt = service.GetPayCardInfo("","1563686969");
         }
         [TestMethod]
         public void Testfund_668()
         {
             FundAccountInfo service = new FundAccountInfo();
-            DataTable dt = service.QueryFundAccountRelationInfo("1563686969");
+            DataTable dt = service.QueryFundAccountRelationInfo("","1563686969");
         }
 
         [TestMethod]
@@ -144,14 +144,14 @@ namespace CFT.CSOMS.DAL.Tests
 
             FundInfoData service = new FundInfoData();
             DateTime dte = DateTime.Now;
-            bool dt = service.QueryIfAnewBoughtFund("2000000507201403111922321999", dte);
+            bool dt = service.QueryIfAnewBoughtFund("","2000000507201403111922321999", dte);
         }
         [TestMethod]
         public void Testfund_665()
         {
             FundInfoData service = new FundInfoData();
             DateTime dte = DateTime.Now;
-            DataTable dt = service.QueryTradeFundInfo("", "2000000507201403111922321999");
+            DataTable dt = service.QueryTradeFundInfo("","", "2000000507201403111922321999");
         }
 
          [TestMethod]
@@ -159,7 +159,7 @@ namespace CFT.CSOMS.DAL.Tests
         { 
             FundProfit service = new FundProfit();
             DateTime dte = DateTime.Now;
-            DataTable dt = service.QueryFundProfitRate("200000070", "234234");
+            DataTable dt = service.QueryFundProfitRate("","200000070", "234234");
         }
 
          [TestMethod]
@@ -200,7 +200,7 @@ namespace CFT.CSOMS.DAL.Tests
 
              SafeCard service = new SafeCard();
              DateTime dte = DateTime.Now;
-             DataTable dt = service.GetFundTradeLog("1563686969", 0, 10);
+             DataTable dt = service.GetFundTradeLog("","1563686969", 0, 10);
          }
          [TestMethod]
          public void test()
@@ -210,7 +210,7 @@ namespace CFT.CSOMS.DAL.Tests
              //dd.test();
              SafeCard service = new SafeCard();
              DateTime dte = DateTime.Now;
-             DataTable dt = service.GetFundTradeLog("1563686969", 0, 10);
+             DataTable dt = service.GetFundTradeLog("","1563686969", 0, 10);
          }
     }
 }

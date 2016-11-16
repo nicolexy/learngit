@@ -13,7 +13,7 @@ namespace CFT.CSOMS.DAL.FundModule
     public class FundRoll
     {
         //获取理财通交易记录  查基金交易（客户）表
-        public DataTable QueryFundRollList(string u_QQID, DateTime u_BeginTime, DateTime u_EndTime, string Fcurtype, int istr, int imax, int Ftype)
+        public DataTable QueryFundRollList(string Tradeid,string u_QQID, DateTime u_BeginTime, DateTime u_EndTime, string Fcurtype, int istr, int imax, int Ftype)
         {
             //string uid = AccountData.ConvertToFuid(u_QQID);
             //if (uid == null || uid.Length < 3)
@@ -57,7 +57,7 @@ namespace CFT.CSOMS.DAL.FundModule
 
             var serverIp = System.Configuration.ConfigurationManager.AppSettings["FundRateIP"].ToString();
             var serverPort = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings["FundRatePort"].ToString());
-            string requestText = "reqid=677&flag=2&offset=" + istr + "&limit=" + imax + "&fields=uid:" + uid;
+            string requestText = "route_type=tradeid&route_tradeid="+ Tradeid + "&reqid=677&flag=2&offset=" + istr + "&limit=" + imax + "&fields=uid:" + uid;
 
             string begin = u_BeginTime.ToString("yyyy-MM-dd HH:mm:ss");
             string end = u_EndTime.ToString("yyyy-MM-dd HH:mm:ss");

@@ -42,6 +42,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 string USERTYPE = RadioButtonList_SelectValue("USERTYPE");
                 uin = AccountService.GetQQID(USERTYPE, uin);
                 ViewState["uin"] = uin;
+                ViewState["Tradeid"] = new FundService().GetTradeIdByUIN(uin);
                 string uid = new AccountService().QQ2Uid(uin);
                 ViewState["uid"] = uid;
 
@@ -75,7 +76,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
                 pager1.Visible = true;
                 string uid = ViewState["uid"].ToString();
                 FundService service = new FundService();
-                DataTable dt = service.Get_DT_fundBuyPlan(uid, offset, limit);
+                string Tradeid = ViewState["Tradeid"].ToString();
+                DataTable dt = service.Get_DT_fundBuyPlan(Tradeid,uid, offset, limit);
                 classLibrary.setConfig.GetColumnValueFromDic(dt, "Fbank_type", "Fbank_type", "BANK_TYPE");
                 dg_DT_fundBuyPlan.DataSource = dt;
                 dg_DT_fundBuyPlan.DataBind();
@@ -145,9 +147,10 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             {
                 string plan_id = e.Item.Cells[0].Text.Trim(); //ID 
                 ViewState["plan_id"] = plan_id;
+                string Tradeid = ViewState["Tradeid"].ToString();
                 if (e.CommandName == "other")
                 {
-                    GetfundBuyPlanByPlanid(plan_id);
+                    GetfundBuyPlanByPlanid(Tradeid,plan_id);
                 }
                 else if (e.CommandName == "KKrecord")
                 {
@@ -165,11 +168,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             }
         }
 
-        private void GetfundBuyPlanByPlanid(string plan_id)
+        private void GetfundBuyPlanByPlanid(string Tradeid,string plan_id)
         {
             string uid = ViewState["uid"].ToString();
             FundService service = new FundService();
-            DataTable dt = service.Get_DT_fundBuyPlanByPlanid(uid, plan_id);
+            DataTable dt = service.Get_DT_fundBuyPlanByPlanid(Tradeid,uid, plan_id);
             dg_fundBuyPlanByPlanid.DataSource = dt;
             dg_fundBuyPlanByPlanid.DataBind();
         }
@@ -178,8 +181,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             int limit = pager2.PageSize;
             int offset = (pager2.CurrentPageIndex - 1) * limit;
             string uid = ViewState["uid"].ToString();
+            string Tradeid = ViewState["Tradeid"].ToString();
             FundService service = new FundService();
-            DataTable dt = service.Get_DT_PlanBuyOrder(uid, plan_id, offset, limit);
+            DataTable dt = service.Get_DT_PlanBuyOrder(Tradeid, uid, plan_id, offset, limit);
             classLibrary.setConfig.GetColumnValueFromDic(dt, "Fbank_type", "Fbank_type", "BANK_TYPE");
             if (dt != null && dt.Rows.Count > 0) 
             {
@@ -234,7 +238,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.WebchatPay
             string uid = ViewState["uid"].ToString();
             FundService service = new FundService();
             string PROJECT = ViewState["PROJECT"].ToString();
-            DataTable dt = service.Get_HFD_PlanFetchOrder(PROJECT,uid, plan_id, offset, limit);
+            string Tradeid = ViewState["Tradeid"].ToString();
+            DataTable dt = service.Get_HFD_PlanFetchOrder(Tradeid, PROJECT, uid, plan_id, offset, limit);
             classLibrary.setConfig.GetColumnValueFromDic(dt, "Fbank_type", "Fbank_type", "BANK_TYPE");
             if (dt != null && dt.Rows.Count > 0)
             {

@@ -80,69 +80,124 @@ namespace CFT.CSOMS.BLL.WechatPay
 
         public Hashtable RequestBankInfo()
         {
+            //Hashtable ht = new Hashtable();
+            //string relayDefaultSPId = "20000000";
+            //string ip = System.Configuration.ConfigurationManager.AppSettings["BankInfoIP"].ToString();
+            //int port = int.Parse(System.Configuration.ConfigurationManager.AppSettings["BankInfoPort"].ToString());
+            //快捷
+            //string requestString = "biz_type=FASTPAY&query_mode=1&query_type=1&specified_attrs=bank_type|bank_name&limit={0}&offset={1}";
+            //int limit = 100;
+            //int pageindex = 0;
+            //int totalNum = 0;
+            //while (true)
+            //{
+            //    int offset = pageindex * 100;
+            //    string requsetstr = string.Format(requestString, limit, offset);
+            //    DataSet dsTemp = RelayAccessFactory.GetBankInfoFromRelay(out totalNum, requsetstr, "6508", ip, port, false, false, relayDefaultSPId);
+            //    if (dsTemp != null && dsTemp.Tables.Count > 0 && dsTemp.Tables[0].Rows.Count > 0)
+            //    {
+            //        foreach (DataRow dr in dsTemp.Tables[0].Rows)
+            //        {
+            //            if (ht.ContainsKey(dr["bank_name"].ToString().Trim()))
+            //            {
+            //                string strBankID = ht[dr["bank_name"].ToString().Trim()].ToString();
+            //                ht[dr["bank_name"].ToString().Trim()] = string.Format("{0}|{1}", strBankID, dr["bank_type"].ToString());
+            //            }
+            //            else
+            //            {
+            //                ht[dr["bank_name"].ToString().Trim()] = dr["bank_type"].ToString();
+            //            }
+            //        }
+            //    }
+            //    else
+            //    {
+            //        break;
+            //    }
+            //    pageindex++;
+            //}
+
+            ////一点通
+            //requestString = "biz_type=ONECLICK&query_mode=1&query_type=1&specified_attrs=bank_type|bank_name&limit={0}&offset={1}";
+            //pageindex = 0;
+            //while (true)
+            //{
+            //    int offset = pageindex * 100;
+            //    string requsetstr = string.Format(requestString, limit, offset);
+            //    DataSet dsTemp = RelayAccessFactory.GetBankInfoFromRelay(out totalNum, requsetstr, "6508", ip, port, false, false, relayDefaultSPId);
+            //    if (dsTemp != null && dsTemp.Tables.Count > 0 && dsTemp.Tables[0].Rows.Count > 0)
+            //    {
+            //        foreach (DataRow dr in dsTemp.Tables[0].Rows)
+            //        {
+            //            if (ht.ContainsKey(dr["bank_name"].ToString().Trim()))
+            //            {
+            //                string strBankID = ht[dr["bank_name"].ToString().Trim()].ToString();
+            //                ht[dr["bank_name"].ToString().Trim()] = string.Format("{0}|{1}", strBankID, dr["bank_type"].ToString());
+            //            }
+            //            else
+            //            {
+            //                ht[dr["bank_name"].ToString().Trim()] = dr["bank_type"].ToString();
+            //            }
+            //        }
+            //    }
+            //    else
+            //    {
+            //        break;
+            //    }
+            //    pageindex++;
+            //}
+            //return ht;
+
             Hashtable ht = new Hashtable();
             string relayDefaultSPId = "20000000";
             string ip = System.Configuration.ConfigurationManager.AppSettings["BankInfoIP"].ToString();
             int port = int.Parse(System.Configuration.ConfigurationManager.AppSettings["BankInfoPort"].ToString());
-            //快捷
-            string requestString = "biz_type=FASTPAY&query_mode=1&query_type=1&specified_attrs=bank_type|bank_name&limit=100&offset={0}";
-            int pageindex = 0;
-            while (true)
+            Action<string, int> getBankinfo = new Action<string, int>((string requestString, int limit) =>
             {
-                int offset = pageindex * 100;
-                string requsetstr = string.Format(requestString, offset);
-                DataSet dsTemp = RelayAccessFactory.GetBankInfoFromRelay(requsetstr, "6508", ip, port, false, false, relayDefaultSPId);
-                if (dsTemp != null && dsTemp.Tables.Count > 0 && dsTemp.Tables[0].Rows.Count > 0)
+                int totalNum = 0;
+                int offset = 0;
+                while (true)
                 {
-                    foreach (DataRow dr in dsTemp.Tables[0].Rows)
-                    {
-                        if (ht.ContainsKey(dr["bank_name"].ToString().Trim()))
-                        {
-                            string strBankID = ht[dr["bank_name"].ToString().Trim()].ToString();
-                            ht[dr["bank_name"].ToString().Trim()] = string.Format("{0}|{1}", strBankID, dr["bank_type"].ToString());
-                        }
-                        else
-                        {
-                            ht[dr["bank_name"].ToString().Trim()] = dr["bank_type"].ToString();
-                        }
-                    }
-                }
-                else
-                {
-                    break;
-                }
-                pageindex++;
-            }
+                    string requsetstr = string.Format(requestString, limit, offset);
+                    DataSet dsTemp = RelayAccessFactory.GetBankInfoFromRelay(out totalNum, requsetstr, "6508", ip, port, false, false, relayDefaultSPId);
+                    int left = totalNum - (offset + limit);
+                    if (left <= 0) break;
 
-            //一点通
-            requestString = "biz_type=ONECLICK&query_mode=1&query_type=1&specified_attrs=bank_type|bank_name&limit=100&offset={0}";
-            pageindex = 0;
-            while (true)
-            {
-                int offset = pageindex * 100;
-                string requsetstr = string.Format(requestString, offset);
-                DataSet dsTemp = RelayAccessFactory.GetBankInfoFromRelay(requsetstr, "6508", ip, port, false, false, relayDefaultSPId);
-                if (dsTemp != null && dsTemp.Tables.Count > 0 && dsTemp.Tables[0].Rows.Count > 0)
-                {
-                    foreach (DataRow dr in dsTemp.Tables[0].Rows)
+                    if (left >= limit)
                     {
-                        if (ht.ContainsKey(dr["bank_name"].ToString().Trim()))
+                        offset += limit;
+                    }
+                    else
+                    {
+                        offset += limit;
+                        limit = left;
+                    }
+
+                    if (dsTemp != null && dsTemp.Tables.Count > 0 && dsTemp.Tables[0].Rows.Count > 0)
+                    {
+                        foreach (DataRow dr in dsTemp.Tables[0].Rows)
                         {
-                            string strBankID = ht[dr["bank_name"].ToString().Trim()].ToString();
-                            ht[dr["bank_name"].ToString().Trim()] = string.Format("{0}|{1}", strBankID, dr["bank_type"].ToString());
-                        }
-                        else
-                        {
-                            ht[dr["bank_name"].ToString().Trim()] = dr["bank_type"].ToString();
+                            if (ht.ContainsKey(dr["bank_name"].ToString().Trim()))
+                            {
+                                string strBankID = ht[dr["bank_name"].ToString().Trim()].ToString();
+                                ht[dr["bank_name"].ToString().Trim()] = string.Format("{0}|{1}", strBankID, dr["bank_type"].ToString());
+                            }
+                            else
+                            {
+                                ht[dr["bank_name"].ToString().Trim()] = dr["bank_type"].ToString();
+                            }
                         }
                     }
+                    else
+                    {
+                        break;
+                    }
+
                 }
-                else
-                {
-                    break;
-                }
-                pageindex++;
-            }
+            });
+            string requestStr = "biz_type=FASTPAY&query_mode=1&query_type=1&specified_attrs=bank_type|bank_name&limit={0}&offset={1}";
+            getBankinfo(requestStr, 100);
+            requestStr = "biz_type=ONECLICK&query_mode=1&query_type=1&specified_attrs=bank_type|bank_name&limit={0}&offset={1}";
+            getBankinfo(requestStr, 10);
             return ht;
         }
         /// <summary>

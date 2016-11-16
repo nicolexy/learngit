@@ -31,7 +31,7 @@ namespace CFT.CSOMS.DAL.FundModule
             DataTable dt = null;
             var serverIp = System.Configuration.ConfigurationManager.AppSettings["FundRateIP"].ToString();
             var serverPort = Int32.Parse(System.Configuration.ConfigurationManager.AppSettings["FundRatePort"].ToString());
-            string requestText = "reqid=682&flag=2&offset={0}&limit={1}&fields=trade_id:{2}";
+            string requestText = "route_type=tradeid&route_tradeid=" + tradeId + "&reqid=682&flag=2&offset={0}&limit={1}&fields=trade_id:{2}";
             requestText = string.Format(requestText, start, max, tradeId);
             DataSet ds1 = RelayAccessFactory.GetDSFromRelayFromXML(requestText, "100769", serverIp, serverPort);
             if (ds1 != null && ds1.Tables.Count > 0 && ds1.Tables[0].Rows.Count > 0)
