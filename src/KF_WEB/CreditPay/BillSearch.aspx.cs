@@ -96,7 +96,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.CreditPay
 
                 string accountNo = Request.Form["accountNo"] != null && !string.IsNullOrEmpty(Request.Form["accountNo"].ToString()) ? Request.Form["accountNo"].ToString() : string.Empty;
                 int accountType = Request.Form["accountType"] != null && !string.IsNullOrEmpty(Request.Form["accountType"].ToString()) ? int.Parse(Request.Form["accountType"].ToString()) : 1;
-                int billStatus = Request.Form["billStatus"] != null && !string.IsNullOrEmpty(Request.Form["billStatus"].ToString()) ? int.Parse(Request.Form["billStatus"].ToString()) : 1;
+                string billStatus = Request.Form["billStatus"] != null && !string.IsNullOrEmpty(Request.Form["billStatus"].ToString()) ? Request.Form["billStatus"].ToString() : "0";
                 string beginDate = Request.Form["beginDate"] != null && !string.IsNullOrEmpty(Request.Form["beginDate"].ToString()) ? Request.Form["beginDate"].ToString() : string.Empty;
                 string endDate = Request.Form["endDate"] != null && !string.IsNullOrEmpty(Request.Form["endDate"].ToString()) ? Request.Form["endDate"].ToString() : string.Empty;
                 string nextpage_flg = Request.Form["nextpage_flg"] != null && !string.IsNullOrEmpty(Request.Form["nextpage_flg"].ToString()) ? Request.Form["nextpage_flg"].ToString() : string.Empty;

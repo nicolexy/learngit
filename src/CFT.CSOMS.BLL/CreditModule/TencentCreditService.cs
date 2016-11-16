@@ -279,7 +279,7 @@ namespace CFT.CSOMS.BLL.CreditModule
         /// <param name="searchResult">调用接口返回结果，true  false</param>
         /// <param name="errorMessage"></param>
         /// <returns></returns>
-        public string LoadBillList(string accountNo, int accountType, int billStatus, string beginDate, string endDate, string timeStamp, int pageSize, int pageNumber, string order, out bool searchResult, out string errorMessage, ref int total)
+        public string LoadBillList(string accountNo, int accountType, string billStatus, string beginDate, string endDate, string timeStamp, int pageSize, int pageNumber, string order, out bool searchResult, out string errorMessage, ref int total)
         {
             string returnResult = string.Empty;
             errorMessage = string.Empty;

@@ -529,7 +529,7 @@ namespace CFT.CSOMS.BLL.FundModule
 
                     #region  查询份额
                     int Fcurtype = 0;
-                    if (int.TryParse(dr["Fcurtype"].ToString().Trim(), out Fcurtype))
+                    if (!int.TryParse(dr["Fcurtype"].ToString().Trim(), out Fcurtype))
                     {
                         throw new Exception("查询币种类型失败，fund_code：" + itemFundInfo["Ffund_name"].ToString());
                     }

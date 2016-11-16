@@ -114,7 +114,7 @@ namespace CFT.CSOMS.DAL.CreditModule
         /// <param name="searchResult">调用接口返回结果，true  false</param>
         /// <param name="errorMessage"></param>
         /// <returns></returns>
-        public string LoadBillList(string accountNo, int accountType, int billStatus, string beginDate, string endDate, string timeStamp, int pageSize, int pageNumber, string order,  out string errorMessage)
+        public string LoadBillList(string accountNo, int accountType, string billStatus, string beginDate, string endDate, string timeStamp, int pageSize, int pageNumber, string order,  out string errorMessage)
         {
             errorMessage = string.Empty;
             string result = string.Empty;
@@ -141,7 +141,7 @@ namespace CFT.CSOMS.DAL.CreditModule
                 }
                 if (!string.IsNullOrEmpty(endDate))
                 {
-                    dic.Add("end_date", DateTime.Parse(beginDate).ToString("yyyyMMdd"));                    
+                    dic.Add("end_date", DateTime.Parse(endDate).ToString("yyyyMMdd"));                    
                 }
                 //if (!string.IsNullOrEmpty(next_row_key) && !next_row_key.Equals("0"))
                 //{
