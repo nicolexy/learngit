@@ -108,7 +108,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.CreditPay
 
                 string accountNo = Request.Form["accountNo"] != null && !string.IsNullOrEmpty(Request.Form["accountNo"].ToString()) ? Request.Form["accountNo"].ToString() : string.Empty;
                 int accountType = Request.Form["accountType"] != null && !string.IsNullOrEmpty(Request.Form["accountType"].ToString()) ? int.Parse(Request.Form["accountType"].ToString()) : 1;
-                string trans_id = Request.Form["trans_id"] != null && !string.IsNullOrEmpty(Request.Form["trans_id"].ToString()) ? Request.Form["trans_id"].ToString() : string.Empty;
+                string trans_id = Request.Form["transID"] != null && !string.IsNullOrEmpty(Request.Form["transID"].ToString()) ? Request.Form["transID"].ToString() : string.Empty;
                 //int billStatus = Request.Form["billStatus"] != null && !string.IsNullOrEmpty(Request.Form["billStatus"].ToString()) ? int.Parse(Request.Form["billStatus"].ToString()) : 1;
                 string beginDate = Request.Form["beginDate"] != null && !string.IsNullOrEmpty(Request.Form["beginDate"].ToString()) ? Request.Form["beginDate"].ToString() : string.Empty;
                 string endDate = Request.Form["endDate"] != null && !string.IsNullOrEmpty(Request.Form["endDate"].ToString()) ? Request.Form["endDate"].ToString() : string.Empty;
@@ -125,11 +125,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.CreditPay
                 //{
                     if (classLibrary.getData.IsTestMode && !classLibrary.getData.IsNewSensitivePowerMode)
                     {
-                        returnResult = tencentCreditService.LoadPayList(accountNo, accountType, req_type = 0, trans_id, beginDate, endDate, timeStamp, pageSize, pageNumber, next_row_key, sortStr + " " + orderStr, out searchResult, out errorMessage, ref total);
+                        returnResult = tencentCreditService.LoadPayList(accountNo, accountType, req_type, trans_id, beginDate, endDate, timeStamp, pageSize, pageNumber, next_row_key, sortStr + " " + orderStr, out searchResult, out errorMessage, ref total);
                     }
                     else
                     {
-                        returnResult = tencentCreditService.LoadPayList(accountNo, accountType, req_type = 0, trans_id, beginDate, endDate, timeStamp, pageSize, pageNumber, next_row_key, sortStr + " " + orderStr, out searchResult, out errorMessage, ref total);
+                        returnResult = tencentCreditService.LoadPayList(accountNo, accountType, req_type, trans_id, beginDate, endDate, timeStamp, pageSize, pageNumber, next_row_key, sortStr + " " + orderStr, out searchResult, out errorMessage, ref total);
                     }
                     if (searchResult)
                     {
@@ -199,7 +199,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.CreditPay
 
                 string accountNo = Request.Form["accountNo"] != null && !string.IsNullOrEmpty(Request.Form["accountNo"].ToString()) ? Request.Form["accountNo"].ToString() : string.Empty;
                 int accountType = Request.Form["accountType"] != null && !string.IsNullOrEmpty(Request.Form["accountType"].ToString()) ? int.Parse(Request.Form["accountType"].ToString()) : 1;
-                string trans_id = Request.Form["trans_id"] != null && !string.IsNullOrEmpty(Request.Form["trans_id"].ToString()) ? Request.Form["trans_id"].ToString() : string.Empty;
+                string trans_id = Request.Form["transID"] != null && !string.IsNullOrEmpty(Request.Form["transID"].ToString()) ? Request.Form["transID"].ToString() : string.Empty;
                 //int billStatus = Request.Form["billStatus"] != null && !string.IsNullOrEmpty(Request.Form["billStatus"].ToString()) ? int.Parse(Request.Form["billStatus"].ToString()) : 1;
                 string beginDate = Request.Form["beginDate"] != null && !string.IsNullOrEmpty(Request.Form["beginDate"].ToString()) ? Request.Form["beginDate"].ToString() : string.Empty;
                 string endDate = Request.Form["endDate"] != null && !string.IsNullOrEmpty(Request.Form["endDate"].ToString()) ? Request.Form["endDate"].ToString() : string.Empty;
@@ -216,11 +216,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.CreditPay
                 //{
                     if (classLibrary.getData.IsTestMode && !classLibrary.getData.IsNewSensitivePowerMode)
                     {
-                        returnResult = tencentCreditService.LoadRepayList(accountNo, accountType, req_type = 0, trans_id, beginDate, endDate, timeStamp, pageSize, pageNumber, next_row_key, sortStr + " " + orderStr, out searchResult, out errorMessage, ref total);
+                        returnResult = tencentCreditService.LoadRepayList(accountNo, accountType, req_type, trans_id, beginDate, endDate, timeStamp, pageSize, pageNumber, next_row_key, sortStr + " " + orderStr, out searchResult, out errorMessage, ref total);
                     }
                     else
                     {
-                        returnResult = tencentCreditService.LoadRepayList(accountNo, accountType, req_type = 0, trans_id, beginDate, endDate, timeStamp, pageSize, pageNumber, next_row_key, sortStr + " " + orderStr, out searchResult, out errorMessage, ref total);
+                        returnResult = tencentCreditService.LoadRepayList(accountNo, accountType, req_type, trans_id, beginDate, endDate, timeStamp, pageSize, pageNumber, next_row_key, sortStr + " " + orderStr, out searchResult, out errorMessage, ref total);
                     }
                     if (searchResult)
                     {
@@ -288,7 +288,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.CreditPay
 
                 string accountNo = Request.Form["accountNo"] != null && !string.IsNullOrEmpty(Request.Form["accountNo"].ToString()) ? Request.Form["accountNo"].ToString() : string.Empty;
                 int accountType = Request.Form["accountType"] != null && !string.IsNullOrEmpty(Request.Form["accountType"].ToString()) ? int.Parse(Request.Form["accountType"].ToString()) : 1;
-                string trans_id = Request.Form["trans_id"] != null && !string.IsNullOrEmpty(Request.Form["trans_id"].ToString()) ? Request.Form["trans_id"].ToString() : string.Empty;
+                string trans_id = Request.Form["transID"] != null && !string.IsNullOrEmpty(Request.Form["transID"].ToString()) ? Request.Form["transID"].ToString() : string.Empty;
                 //int billStatus = Request.Form["billStatus"] != null && !string.IsNullOrEmpty(Request.Form["billStatus"].ToString()) ? int.Parse(Request.Form["billStatus"].ToString()) : 1;
                 string beginDate = Request.Form["beginDate"] != null && !string.IsNullOrEmpty(Request.Form["beginDate"].ToString()) ? Request.Form["beginDate"].ToString() : string.Empty;
                 string endDate = Request.Form["endDate"] != null && !string.IsNullOrEmpty(Request.Form["endDate"].ToString()) ? Request.Form["endDate"].ToString() : string.Empty;
@@ -305,11 +305,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.CreditPay
                 //{
                     if (classLibrary.getData.IsTestMode && !classLibrary.getData.IsNewSensitivePowerMode)
                     {
-                        returnResult = tencentCreditService.LoadRefundList(accountNo, accountType, req_type = 0, trans_id, beginDate, endDate, timeStamp, pageSize, pageNumber, next_row_key, sortStr + " " + orderStr, out searchResult, out errorMessage, ref total);
+                        returnResult = tencentCreditService.LoadRefundList(accountNo, accountType, req_type, trans_id, beginDate, endDate, timeStamp, pageSize, pageNumber, next_row_key, sortStr + " " + orderStr, out searchResult, out errorMessage, ref total);
                     }
                     else
                     {
-                        returnResult = tencentCreditService.LoadRefundList(accountNo, accountType, req_type = 0, trans_id, beginDate, endDate, timeStamp, pageSize, pageNumber, next_row_key, sortStr + " " + orderStr, out searchResult, out errorMessage, ref total);
+                        returnResult = tencentCreditService.LoadRefundList(accountNo, accountType, req_type, trans_id, beginDate, endDate, timeStamp, pageSize, pageNumber, next_row_key, sortStr + " " + orderStr, out searchResult, out errorMessage, ref total);
                     }
                     if (searchResult)
                     {

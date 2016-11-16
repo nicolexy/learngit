@@ -49,7 +49,7 @@
         var beginDate = $("#txt_BeginDate").datebox("getValue");
         var endDate = $("#txt_EndDate").datebox("getValue");
         var searchType = $("#ddl_SearchType").combobox("getValue");
-        if (accountNo.length < 1 || accountNo == null) {
+        if ((accountNo.length < 1 || accountNo == null) ) {           
             $.messager.alert("提示", "请输入用户帐号", "info", null);
             return;
         }
