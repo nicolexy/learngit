@@ -477,7 +477,8 @@ namespace CFT.CSOMS.BLL.FundModule
             var userFundsTable = new DataTable();
 
             userFundsTable.Columns.Add("Fspid", typeof(string));
-
+            userFundsTable.Columns.Add("Facct_type", typeof(string));
+            
             userFundsTable.Columns.Add("balance", typeof(string));
             userFundsTable.Columns.Add("fundName", typeof(string));
             userFundsTable.Columns.Add("Fcurtype", typeof(string));
@@ -518,6 +519,7 @@ namespace CFT.CSOMS.BLL.FundModule
                 {
                     DataRow dr = userFundsTable.NewRow();
                     dr["Fspid"] = item["Fspid"].ToString();
+                    dr["Facct_type"] = item["Facct_type"].ToString();
 
                     dr["Fcurtype"] = itemFundInfo["Fcurtype"].ToString();
                     dr["fundName"] = itemFundInfo["Ffund_name"].ToString();
