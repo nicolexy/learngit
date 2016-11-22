@@ -63,7 +63,8 @@ namespace CFT.CSOMS.BLL.FundModule
                 {"4", "指数"},
                 {"5", "非标"},
                 {"6", "报价回购"},
-                {"7", "投连险"}
+                {"7", "投连险"},
+                {"8", "分期兑付个人贷"}
             };
         }
 
@@ -603,7 +604,7 @@ namespace CFT.CSOMS.BLL.FundModule
                     }
                     else
                     {
-                        dr["FType_Str"] = DicFtype[dr["FType"].ToString()];
+                        dr["FType_Str"] = COMMLIB.CommUtil.DbtypeToPageContent(dr["FType"].ToString(), DicFtype, "未知");
                     }
 
                     switch (dr["close_flag"].ToString())

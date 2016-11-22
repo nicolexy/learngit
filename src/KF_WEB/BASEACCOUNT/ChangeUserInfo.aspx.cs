@@ -226,9 +226,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             icity = fcity;
 
             //获得用户帐户信息
-            string userType = null;
-            string Msg = null;
-            string userType_str = null;
+            string userType = classLibrary.setConfig.GetStringStr(ds.Tables[0].Rows[0]["Fuser_type"]);
+            //string Msg = null;
+            //string userType_str = new AccountService().ConvertToUsertype((userType));
             string UinOrUid = ViewState["qqid"].ToString().Trim();
 
             if (accountType == 1)   //输入为uid
@@ -247,13 +247,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
                 this.LinkButton1_Edit.Visible = true;
             }
 
-            bool exeSign = new AccountService().GetUserType(UinOrUid, accountType, out userType, out userType_str, out Msg);
+            //bool exeSign = new AccountService().GetUserType(UinOrUid, accountType, out userType, out userType_str, out Msg);
 
-            if (exeSign == false)
-            {
-                WebUtils.ShowMessage(this.Page, "查询用户帐户类型失败。[" + Msg + "]");
-                return;
-            }
+            //if (exeSign == false)
+            //{
+            //    WebUtils.ShowMessage(this.Page, "查询用户帐户类型失败。[" + Msg + "]");
+            //    return;
+            //}
 
             this.ddlType.SelectedValue = userType.Trim();
 

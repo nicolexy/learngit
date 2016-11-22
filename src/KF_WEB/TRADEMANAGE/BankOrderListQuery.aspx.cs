@@ -405,7 +405,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                 DataSet ds = new DataSet();
                 foreach (string id in listID)
                 {
-                    if (id.Length < 28)//交易单号小于28位的不显示
+                    if (id.Length < 28&&id.Length!=21)//交易单28位，充值单21位
                         continue;
 
                     string selectStrSession = id;

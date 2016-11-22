@@ -22,7 +22,7 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
         #region 账户QQ修改
 
         //提出修改QQ申请
-        public bool ChangeQQApply(string old_qqid, string new_qqid, string reason,string user,string ip, out string outMsg)
+        public bool ChangeQQApply(string old_qqid, string new_qqid, string reason, string user, string ip, out string outMsg)
         {
             outMsg = "";
             if (string.IsNullOrEmpty(old_qqid))
@@ -35,7 +35,7 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
                 outMsg = "请输入旧帐号！";
                 return false;
             }
-           
+
             //发起审批。
             //在这里变成了一个提起审批的流程，而不再是直接审批。
             Param[] myParams = new Param[3];
@@ -81,7 +81,7 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
         }
 
         //判断是否符合修改QQ条件
-        public bool ChangeQQState(string old_qqid,string opUin, out string outMsg)
+        public bool ChangeQQState(string old_qqid, string opUin, out string outMsg)
         {
             outMsg = "";
             if (isHasBalance(old_qqid.Trim()))
@@ -183,10 +183,10 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
         /// <param name="ip"></param>
         /// <param name="msg"></param>
         /// <returns></returns>
-        public bool CloseingAccountInfo(string query_id, int query_type, string reason, bool is_Send, string email_Addr, string opera,string ip, out string ret_msg)
+        public bool CloseingAccountInfo(string query_id, int query_type, string reason, bool is_Send, string email_Addr, string opera, string ip, out string ret_msg)
         {
             ret_msg = "";
-          
+
             if (reason.Length > 255)
             {
                 ret_msg = "备注字数不得超过255个字符";
@@ -237,12 +237,20 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
             //手Q用户转账中、退款中、未完成的订单禁止注销和批量注销
             if (Regex.IsMatch(query_id, @"^[1-9]\d*$"))
             {
-                DataSet dsHandQ = new TradeService().QueryPaymentParty("", "1,2,12,4,6,7", "3", query_id);
-                if (dsHandQ != null && dsHandQ.Tables.Count > 0 && dsHandQ.Tables[0].Rows.Count > 0 && dsHandQ.Tables[0].Rows[0]["result"].ToString() != "97420006")
+                #region 转账
+                string mobileQTransferErrorMsg = "";
+                DataSet dsMobileQTransfer = new TradeService().GetUnfinishedMobileQTransfer(query_id, out mobileQTransferErrorMsg);
+                if (!string.IsNullOrEmpty(mobileQTransferErrorMsg))
+                {
+                    ret_msg = "查询手Q转账记录失败" + mobileQTransferErrorMsg;
+                    return false;
+                }
+                if (dsMobileQTransfer != null && dsMobileQTransfer.Tables.Count > 0 && dsMobileQTransfer.Tables[0].Rows.Count > 0 && dsMobileQTransfer.Tables[0].Rows[0]["result"].ToString() != "192720108")
                 {
                     ret_msg = "手Q用户转账中、退款中、未完成的订单禁止注销和批量注销";
                     return false;
                 }
+                #endregion             
                 try
                 {
                     DataSet dsMobileQHB = new TradeService().GetUnfinishedMobileQHB(query_id);
@@ -407,7 +415,7 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
             //        return false;
             //    }
             //}
-         
+
         }
 
         //注销账号
