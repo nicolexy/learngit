@@ -3180,5 +3180,37 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
 
         }
+        //将两个表结构一致的dataset合并到一个dataset
+        public static DataSet ToOneDataset(DataSet ds, DataSet ds2)
+        {
+            DataSet dsAll = new DataSet();
+
+            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                dsAll.Tables.Add(ds.Tables[0].Copy());
+                if (ds2 != null && ds2.Tables.Count > 0)
+                {//分库表不为null
+                    foreach (DataTable tbl in ds2.Tables)
+                        if (tbl.Rows.Count > 0)//分库表不为null
+                        {
+                            foreach (DataRow dr in tbl.Rows)
+                            {
+                                dsAll.Tables[0].ImportRow(dr);//将记录加入到一个表里
+                            }
+                        }
+                }
+            }
+            else
+            {
+                if (ds2 != null && ds2.Tables.Count > 0 && ds2.Tables[0].Rows.Count > 0)
+                    dsAll.Tables.Add(ds2.Tables[0].Copy());
+            }
+            if (dsAll != null && dsAll.Tables.Count == 0)
+            {
+                dsAll = null;
+            }
+
+            return dsAll;
+        }
     }
 }

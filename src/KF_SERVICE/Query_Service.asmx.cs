@@ -3108,103 +3108,201 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
         }
 
         [WebMethod(Description = "按充值单号查询")]//新充值单查询
-        public DataSet GetBankRollListByListId(string u_ID, string u_QueryType, int fcurtype, DateTime u_BeginTime, DateTime u_EndTime, int fstate,
-            float fnum, float fnumMax, string banktype, string sorttype, int iPageStart, int iPageMax)
+        public DataSet GetBankRollListByListId(string u_ID, string u_QueryType, int? fcurtype, DateTime u_BeginTime, DateTime u_EndTime, int fstate,
+            float? fnum, float? fnumMax, string banktype, string sorttype, int iPageStart, int iPageMax)
         {
+            //string msg = "";
+            //try
+            //{
+            //    DataSet ds = null;
+            //    DataSet dsqq = new DataSet();
+            //    DataTable dsdt = new DataTable();
+            //    string strSql = "";
+
+            //    if (!string.IsNullOrEmpty(u_ID))
+            //    {
+            //        switch (u_QueryType.ToLower())
+            //        {
+            //            case "qq":         //按照QQ号查询，注意使用内部uid
+            //                string uid = PublicRes.ConvertToFuid(u_ID);
+            //                strSql = "auid=" + uid;
+            //                break;
+            //            case "tobank":     //给银行的订单号
+            //                strSql = "bank_list=" + u_ID.Trim();
+            //                break;
+            //            case "bankback":   //银行返回u
+            //                strSql = "bank_acc=" + u_ID.Trim();
+            //                break;
+            //            case "czd":        //充值单查询
+            //                strSql = "listid=" + u_ID.Trim();
+            //                break;
+            //        }
+            //    }
+                
+            //    if (fstate != 0)
+            //    {
+            //        strSql += "&sign=" + fstate;
+            //    }
+            //    long num = (long)Math.Round(fnum * 100, 0);
+            //    long numMax = (long)Math.Round(fnumMax * 100, 0);
+
+
+            //    strSql += "&num_start=" + num + "&num_end=" + numMax;
+
+            //    if (banktype != "0000" && banktype != "")
+            //    {
+            //        strSql += "&bank_type=" + banktype;
+            //    }
+
+            //    if (u_QueryType.ToLower() != "tobank")
+            //    {
+            //        TimeSpan ts = u_EndTime - u_BeginTime;
+            //        int sub = ts.Days;
+            //        bool iscone = false;
+            //        for (int i = 0; i <= sub; i++)
+            //        {
+            //            string truetime = u_EndTime.AddDays(-i).ToString("yyyyMMdd");
+            //            string querstr = strSql + "&query_day=" + truetime + "&curtype=" + fcurtype + "&strlimit=limit " + iPageStart + "," + iPageMax;
+            //            ds = CommQuery.GetDataSetFromICE(querstr, CommQuery.QUERY_TCBANKROLL_DAY, out msg);
+            //            if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            //            {
+            //                if (u_QueryType.ToLower() == "qq" || u_QueryType.ToLower() == "czd")
+            //                {
+            //                    if (!iscone)
+            //                    {
+            //                        dsdt = ds.Tables[0].Clone();
+            //                        iscone = true;
+            //                    }
+
+            //                    foreach (DataRow dr in ds.Tables[0].Rows)
+            //                    {
+            //                        dsdt.ImportRow(dr);
+            //                    }
+            //                }
+            //                else
+            //                {
+            //                    break;
+            //                }
+            //            }
+            //        }
+            //    }
+            //    else   //按给银行订单号查询
+            //    {
+            //        strSql += string.Format("&offset=0&limit=10&sp_id=1000000000&MSG_NO=&fronttime_start={0}&fronttime_end={1}", 
+            //            u_BeginTime.ToString("yyyy-MM-dd HH:mm:ss"), u_EndTime.ToString("yyyy-MM-dd HH:mm:ss"));
+            //        ds = CommQuery.GetDataSetFromICE_QueryServer(strSql, CommQuery.QUERY_TCBANKROLL_S, out msg);
+            //    }
+
+            //    if (u_QueryType.ToLower() == "qq" || u_QueryType.ToLower() == "czd")
+            //    {
+            //        dsqq.Tables.Add(dsdt);
+            //        return dsqq;
+            //    }
+
+            //    return ds;
+            //}
+            //catch (Exception e)
+            //{
+            //    throw new Exception("service发生错误,请联系管理员！" + e.Message + msg);
+            //    return null;
+            //}
             string msg = "";
             try
             {
                 DataSet ds = null;
-                DataSet dsqq = new DataSet();
-                DataTable dsdt = new DataTable();
-                string strSql = "";
-
-                if (!string.IsNullOrEmpty(u_ID))
+                string srtSql = "";
+                if (u_QueryType.ToLower() == "qq")  //按照QQ号查询，注意使用内部uid
                 {
-                    switch (u_QueryType.ToLower())
+                    if (string.IsNullOrEmpty(u_ID))
                     {
-                        case "qq":         //按照QQ号查询，注意使用内部uid
-                            string uid = PublicRes.ConvertToFuid(u_ID);
-                            strSql = "auid=" + uid;
-                            break;
-                        case "tobank":     //给银行的订单号
-                            strSql = "bank_list=" + u_ID.Trim();
-                            break;
-                        case "bankback":   //银行返回u
-                            strSql = "bank_acc=" + u_ID.Trim();
-                            break;
-                        case "czd":        //充值单查询
-                            strSql = "listid=" + u_ID.Trim();
-                            break;
+                        u_ID = PublicRes.ConvertToFuid(u_ID);
                     }
+                    srtSql = "auid=" + u_ID;
                 }
-                
+                else if (u_ID != null && u_ID.Trim() != "" && u_QueryType.ToLower() == "tobank")  //给银行的订单号
+                {
+                    srtSql = "bank_list=" + u_ID.Trim() + "";
+                }
+                else if (u_ID != null && u_ID.Trim() != "" && u_QueryType.ToLower() == "bankback") //银行返回u
+                {
+                    srtSql = "bank_acc=" + u_ID.Trim();
+                }
+                else if (u_ID != null && u_ID.Trim() != "" && u_QueryType.ToLower() == "czd") //充值单查询
+                {
+                    srtSql = "listid=" + u_ID.Trim();
+                }
                 if (fstate != 0)
                 {
-                    strSql += "&sign=" + fstate;
+                    srtSql += "&sign=" + fstate;
                 }
-                long num = (long)Math.Round(fnum * 100, 0);
-                long numMax = (long)Math.Round(fnumMax * 100, 0);
-
-
-                strSql += "&num_start=" + num + "&num_end=" + numMax;
+                if (fnum.HasValue)
+                {
+                    long num = (long)Math.Round(fnum.Value * 100, 0);
+                    srtSql += "&num_start=" + num;
+                }
+                if (fnumMax.HasValue)
+                {
+                    long numMax = (long)Math.Round(fnumMax.Value * 100, 0);
+                    srtSql += "&num_end=" + numMax;
+                }
 
                 if (banktype != "0000" && banktype != "")
                 {
-                    strSql += "&bank_type=" + banktype;
+                    srtSql += "&bank_type=" + banktype;
+                }
+                if (fcurtype.HasValue)
+                {
+                    srtSql += "&curtype=" + fcurtype.Value;
                 }
 
-                if (u_QueryType.ToLower() != "tobank")
+                if (u_QueryType.ToLower() == "tobank")
                 {
-                    TimeSpan ts = u_EndTime - u_BeginTime;
-                    int sub = ts.Days;
-                    bool iscone = false;
-                    for (int i = 0; i <= sub; i++)
+                    string querstr = srtSql + "&offset=0&limit=10";
+                    ds = CommQuery.GetDataSetFromICE_QueryServer(querstr, CommQuery.QUERY_TCBANKROLL_S, out msg);
+
+                    if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
                     {
-                        string truetime = u_EndTime.AddDays(-i).ToString("yyyyMMdd");
-                        string querstr = strSql + "&query_day=" + truetime + "&curtype=" + fcurtype + "&strlimit=limit " + iPageStart + "," + iPageMax;
-                        ds = CommQuery.GetDataSetFromICE(querstr, CommQuery.QUERY_TCBANKROLL_DAY, out msg);
-                        if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                        while (u_EndTime >= u_BeginTime)
+                        {
+                            string truetime = u_EndTime.ToString("yyyyMMdd");
+                            querstr = srtSql + "&query_day=" + truetime + "&strlimit=limit " + iPageStart + "," + iPageMax;
+                            DataSet dsTemp = CommQuery.GetDataSetFromICE(querstr, CommQuery.QUERY_TCBANKROLL_DAY, out msg);
+                            if (dsTemp != null && dsTemp.Tables.Count > 0 && dsTemp.Tables[0].Rows.Count > 0)
+                            {
+                                ds = PublicRes.ToOneDataset(ds, dsTemp);
+                                break;
+                            }
+                            u_EndTime = u_EndTime.AddDays(-1);
+                        }
+                    }
+                }
+                else
+                {
+                    while (u_EndTime >= u_BeginTime)
+                    {
+                        string truetime = u_EndTime.ToString("yyyyMMdd");
+                        string querstr = srtSql + "&query_day=" + truetime + "&strlimit=limit " + iPageStart + "," + iPageMax;
+                        DataSet dsTemp = CommQuery.GetDataSetFromICE(querstr, CommQuery.QUERY_TCBANKROLL_DAY, out msg);
+                        if (dsTemp != null && dsTemp.Tables.Count > 0 && dsTemp.Tables[0].Rows.Count > 0)
                         {
                             if (u_QueryType.ToLower() == "qq" || u_QueryType.ToLower() == "czd")
                             {
-                                if (!iscone)
-                                {
-                                    dsdt = ds.Tables[0].Clone();
-                                    iscone = true;
-                                }
-
-                                foreach (DataRow dr in ds.Tables[0].Rows)
-                                {
-                                    dsdt.ImportRow(dr);
-                                }
+                                ds = PublicRes.ToOneDataset(ds, dsTemp);
                             }
                             else
                             {
                                 break;
                             }
                         }
+                        u_EndTime = u_EndTime.AddDays(-1);
                     }
                 }
-                else   //按给银行订单号查询
-                {
-                    strSql += string.Format("&offset=0&limit=10&sp_id=1000000000&MSG_NO=&fronttime_start={0}&fronttime_end={1}", 
-                        u_BeginTime.ToString("yyyy-MM-dd HH:mm:ss"), u_EndTime.ToString("yyyy-MM-dd HH:mm:ss"));
-                    ds = CommQuery.GetDataSetFromICE_QueryServer(strSql, CommQuery.QUERY_TCBANKROLL_S, out msg);
-                }
-
-                if (u_QueryType.ToLower() == "qq" || u_QueryType.ToLower() == "czd")
-                {
-                    dsqq.Tables.Add(dsdt);
-                    return dsqq;
-                }
-
                 return ds;
             }
             catch (Exception e)
             {
-                throw new Exception("service发生错误,请联系管理员！" + e.Message + msg);
-                return null;
+                LogHelper.LogError("TENCENT.OSS.CFT.KF.KF_Service.Query_Service  (string u_ID, string u_QueryType, int? fcurtype, DateTime u_BeginTime, DateTime u_EndTime, int fstate, float? fnum, float? fnumMax, string banktype, string sorttype, int iPageStart, int iPageMax), ERROR:" + e.ToString());
+                throw new Exception("service发生错误,请联系管理员！" + msg + e.ToString());
             }
         }
 
