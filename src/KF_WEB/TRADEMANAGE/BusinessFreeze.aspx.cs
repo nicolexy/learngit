@@ -131,9 +131,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
                     //SPOA_Service.SPOA_Service spoaService = new TENCENT.OSS.CFT.KF.KF_Web.SPOA_Service.SPOA_Service();
                     //string spoa_ret = spoaService.FreezeSP(this.txtFspid.Text.Trim(), this.txtReason.Text.Trim(), Session["uid"].ToString());
                    
-                    string spoa_ret = new SPOAService().FreezeSpid(this.txtFspid.Text.Trim(), this.txtReason.Text.Trim(), Session["uid"].ToString());
+                    string spoa_ret = new SPOAService().FreezeSpid(this.txtFspid.Text.Trim(), Session["uid"].ToString(), this.txtReason.Text.Trim());
                     
-                    if (string.IsNullOrEmpty(spoa_ret))
+                    if (string.IsNullOrEmpty(spoa_ret)|| spoa_ret=="0")
                     {
                         
                     }

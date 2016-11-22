@@ -13366,24 +13366,24 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
 
         #region  商户冻结  //原来走SPOA审核流，现在改为客服提交直接生效
 
-        [WebMethod]
-        public void BusinessFreeze(string Fspid, string UserName, bool IsFreeze, bool IsFreezePay, bool IsAccLoss, bool IsCloseAgent, string Reason)
-        {
-            try
-            {
-                DataSet ds = new SPOAService().GetOneValueAddedTax(Fspid);
-                if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
-                {
-                    throw new Exception("该商户号不存在!");
-                }
+        //[WebMethod]
+        //public void BusinessFreeze(string Fspid, string UserName, bool IsFreeze, bool IsFreezePay, bool IsAccLoss, bool IsCloseAgent, string Reason)
+        //{
+        //    try
+        //    {
+        //        DataSet ds = new SPOAService().GetOneValueAddedTax(Fspid);
+        //        if (ds == null || ds.Tables.Count == 0 || ds.Tables[0].Rows.Count == 0)
+        //        {
+        //            throw new Exception("该商户号不存在!");
+        //        }
 
-                BusinessFreezeSPOA(Fspid, IsFreeze, IsFreezePay, IsAccLoss, IsCloseAgent, UserName, Reason);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
+        //        BusinessFreezeSPOA(Fspid, IsFreeze, IsFreezePay, IsAccLoss, IsCloseAgent, UserName, Reason);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception(ex.Message);
+        //    }
+        //}
 
         [WebMethod(Description = "商户冻结提交记录查询函数")]
         public DataSet QueryBussFreezeList(string spid, string type, string state)
@@ -13437,68 +13437,68 @@ namespace TENCENT.OSS.CFT.KF.KF_Service
             }
         }
 
-        [WebMethod]//如果结算合同管理中状态改成冻结，所有条款改为冻结
-        public void BusinessFreezeSPOA(string Fspid, bool IsFreeze, bool IsFreezePay, bool IsAccLoss, bool IsCloseAgent, string UserName, string Reason)
-        {
-            PublicRes PR = new PublicRes();
-            if (IsFreezePay)
-            {//关闭支付
-                try
-                {                  
-                    if (new SPOAService().ClosePay(Fspid, UserName, Reason) != "0")
-                    {
-                        throw new Exception("关闭支付申请失败!");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception("关闭支付申请失败：" + ex.Message);
-                }
-            }
+        //[WebMethod]//如果结算合同管理中状态改成冻结，所有条款改为冻结
+        //public void BusinessFreezeSPOA(string Fspid, bool IsFreeze, bool IsFreezePay, bool IsAccLoss, bool IsCloseAgent, string UserName, string Reason)
+        //{
+        //    PublicRes PR = new PublicRes();
+        //    if (IsFreezePay)
+        //    {//关闭支付
+        //        try
+        //        {                  
+        //            if (new SPOAService().ClosePay(Fspid, UserName, Reason) != "0")
+        //            {
+        //                throw new Exception("关闭支付申请失败!");
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            throw new Exception("关闭支付申请失败：" + ex.Message);
+        //        }
+        //    }
 
-            if (IsFreeze)
-            {//暂停结算             
-                try
-                {
-                    if (new SPOAService().FreezeSpid(Fspid, UserName, Reason) != "0")
-                    {
-                        throw new Exception("冻结商户结算失败!");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception("冻结商户成功：记录日志失败，" + ex.Message);
-                }
-            }
-            if (IsAccLoss)
-            {//账号挂失51
-                try
-                {                 
-                    if (new SPOAService().LostOfSpid(Fspid, UserName, Reason) != "0")
-                    {
-                        throw new Exception("账号挂失失败!");
-                    }
-                }
-                catch (Exception e)
-                {
-                    throw new Exception("账号挂失失败：" + e.Message);
-                }
-            }
-            if (IsCloseAgent)
-            {//关闭中介52
-                try
-                {                 
-                    if (new SPOAService().CloseAgency(Fspid, UserName, Reason) != "0")
-                    {
-                        throw new Exception("关闭中介失败!");
-                    }
-                }
-                catch (Exception e)
-                {
-                    throw new Exception("关闭中介失败：" + e.Message);
-                }
-            }
-        }
+        //    if (IsFreeze)
+        //    {//暂停结算             
+        //        try
+        //        {
+        //            if (new SPOAService().FreezeSpid(Fspid, UserName, Reason) != "0")
+        //            {
+        //                throw new Exception("冻结商户结算失败!");
+        //            }
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            throw new Exception("冻结商户成功：记录日志失败，" + ex.Message);
+        //        }
+        //    }
+        //    if (IsAccLoss)
+        //    {//账号挂失51
+        //        try
+        //        {                 
+        //            if (new SPOAService().LostOfSpid(Fspid, UserName, Reason) != "0")
+        //            {
+        //                throw new Exception("账号挂失失败!");
+        //            }
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            throw new Exception("账号挂失失败：" + e.Message);
+        //        }
+        //    }
+        //    if (IsCloseAgent)
+        //    {//关闭中介52
+        //        try
+        //        {                 
+        //            if (new SPOAService().CloseAgency(Fspid, UserName, Reason) != "0")
+        //            {
+        //                throw new Exception("关闭中介失败!");
+        //            }
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            throw new Exception("关闭中介失败：" + e.Message);
+        //        }
+        //    }
+        //}
 
         [WebMethod]//得到权限
         public int GetRole(string spid, string qq, int signorder)

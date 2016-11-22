@@ -124,7 +124,7 @@ namespace CFT.CSOMS.BLL.CFTAccountModule
             return dt;
         }
         //个人信息获取用户类型
-        private string ConvertToUsertype(string itype)
+        public string ConvertToUsertype(string itype)
         {
             if (itype == "0")
                 return "未指定";
