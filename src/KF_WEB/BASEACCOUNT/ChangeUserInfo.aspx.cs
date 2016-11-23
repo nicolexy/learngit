@@ -137,10 +137,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             {
                 Response.Redirect("../login.aspx?wh=1"); //重新登陆
             }
+            string qqid = this.TX_QQID.Text.Trim();
             int accountType = 0;
             if (this.InternalID.Checked) //内部账号 uid
             {
                 accountType = 1;
+                qqid = new AccountService().Uid2QQ(qqid);
             }
             DataSet ds = new AccountService().GetUserInfo(this.TX_QQID.Text.Trim(), accountType, istr, imax);
             if (ds == null || ds.Tables.Count < 1 || ds.Tables[0].Rows.Count < 1)
@@ -149,8 +151,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BaseAccount
             }
             //Response.Write("DS:" + ds.Tables[0].Rows[0][0].ToString());
 
-            this.Label1_Fqqid.Text = ds.Tables[0].Rows[0]["Fqqid"].ToString();
-            ViewState["qqid"] = ds.Tables[0].Rows[0]["Fqqid"].ToString();
+            this.Label1_Fqqid.Text = qqid;
+            ViewState["qqid"] = qqid;
             bool isRight_SensitiveRole = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
             //对姓名进行敏感操作判断            
             this.TextBox2_Ftruename.Text = classLibrary.setConfig.ConvertName(ds.Tables[0].Rows[0]["Ftruename"].ToString(), isRight_SensitiveRole);   // ds.Tables[0].Rows[0]["Ftruename"].ToString();
