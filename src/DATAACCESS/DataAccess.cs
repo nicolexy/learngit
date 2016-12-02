@@ -175,19 +175,104 @@ namespace TENCENT.OSS.CFT.KF.DataAccess
 
 		}
 
+        /// <summary>
+        /// 参数化查询，防止注入
+        /// </summary>
+        /// <param name="strCmd"></param>
+        /// <returns></returns>
+        public DataTable GetTable_Parameters(string strCmd, System.Collections.Generic.List<string> Parameter)
+        {
+            OdbcDataAdapter adapter = null;
+            try
+            {
+                OdbcCommand command = new OdbcCommand(strCmd, conn);
+                int i = 1;
+                foreach (string item in Parameter)
+                {
+                    command.Parameters.AddWithValue(i.ToString(), item);
+                    i++;
+                }
+                adapter = new OdbcDataAdapter(command);
+                if (mymt != null) adapter.SelectCommand.Transaction = mymt;
+
+                DataTable data = new DataTable();
+                adapter.Fill(data);
+
+                WriteSqlLog(conn.ConnectionString, conn.Database, strCmd, ExecUID);
+
+                return data;
+            }
+            catch (Exception err)
+            {
+                throw TransException(err, strCmd);
+            }
+            finally
+            {
+                adapter.Dispose();
+            }
+        }
+
+        public bool ExecSql_Parameters(string strCmd, System.Collections.Generic.List<string> Parameter)
+        {
+            try
+            {
+                OdbcCommand command = new OdbcCommand(strCmd, conn);
+                int i = 1;
+                foreach (string item in Parameter)
+                {
+                    command.Parameters.AddWithValue(i.ToString(), item);
+                    i++;
+                }
+
+                if (mymt != null) command.Transaction = mymt;
+                //furion 20050905 加入SQL日志
+                WriteSqlLog(conn.ConnectionString, conn.Database, strCmd, ExecUID);
+                return command.ExecuteNonQuery() > 0;
+            }
+            catch (Exception err)
+            {
+                throw TransException(err, strCmd);
+            }
+        }
 
 
-		/// <summary>
+        public string GetOneResult_Parameters(string strCmd, System.Collections.Generic.List<string> Parameter)  //获得单个结果
+        {
+            try
+            {
+                OdbcCommand command = new OdbcCommand(strCmd, conn);
+                int i = 1;
+                foreach (string item in Parameter)
+                {
+                    command.Parameters.AddWithValue(i.ToString(), item);
+                    i++;
+                }
+                if (mymt != null) command.Transaction = mymt;
+                //furion 20050905 加入SQL日志
+                WriteSqlLog(conn.ConnectionString, conn.Database, strCmd, ExecUID);
+                object obj = command.ExecuteScalar();
+                if (obj != null)
+                    return obj.ToString();
+                else
+                    return null;
+            }
+            catch (Exception err)
+            {
+                throw TransException(err, strCmd);
+            }
+        }
 
-		/// 从SQL语句返回结果表。
+        /// <summary>
 
-		/// </summary>
+        /// 从SQL语句返回结果表。
 
-		/// <param name="strCmd"></param>
+        /// </summary>
 
-		/// <returns></returns>
+        /// <param name="strCmd"></param>
 
-		public DataTable GetTable(string strCmd)
+        /// <returns></returns>
+
+        public DataTable GetTable(string strCmd)
 
 		{
 

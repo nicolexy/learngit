@@ -448,7 +448,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.classLibrary
                 rights[196] = new OneRight("SensitiveRole", 196, "敏感权限");
 
                 rights[211] = new OneRight("ChangeUserInfo", 211, "个人信息");
-				ht = new Hashtable(RIGHTCOUNT);
+                rights[209] = new OneRight("BankCheck", 209, "银行查单系统");
+                ht = new Hashtable(RIGHTCOUNT);
 				for(int i=0 ; i< RIGHTCOUNT; i++)
 				{
 					if(rights[i] != null)

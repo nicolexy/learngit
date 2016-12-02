@@ -307,6 +307,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 DFManageControl1.Visible = true;
                 TravelPlatform1.Visible = true;
                 ForeignCurrencyAccount1.Visible = true;
+                BankCheckSystemMenu.Visible = true;
 
                 accountManage1.AddSubMenu("提现规则查询", "TradeManage/AppealDSettings.aspx");
                 accountManage1.AddSubMenu("直付商户查询", "BaseAccount/PayBusinessQuery.aspx");
@@ -395,6 +396,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.Control
                 ForeignCurrencyAccount1.AddSubMenu("商户信息查询", "ForeignCurrencyPay/FCAInfoQuery.aspx");
                 ForeignCurrencyAccount1.AddSubMenu("商户结算查询", "ForeignCurrencyPay/FCASettlementQuery.aspx");
                 ForeignCurrencyAccount1.AddSubMenu("商户划款查询", "ForeignCurrencyPay/FCATransferQuery.aspx");
+
+                BankCheckSystemMenu.Title = "银行查单系统";
+                BankCheckSystemMenu.AddSubMenu("登陆用户名新增", "BankCheckSystem/BankCheckUsersAdd.aspx");
+                BankCheckSystemMenu.AddSubMenu("密码管理", "BankCheckSystem/PasswordManage.aspx");
+                BankCheckSystemMenu.AddSubMenu("登陆名信息查询", "BankCheckSystem/UserManage.aspx");
+                BankCheckSystemMenu.AddSubMenu("冻结/作废申请", "BankCheckSystem/UsersFreeze.aspx");
             }
             #endregion
 
