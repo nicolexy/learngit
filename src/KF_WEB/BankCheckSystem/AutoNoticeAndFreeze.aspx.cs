@@ -82,7 +82,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BankCheckSystem
                         try
                         {
                             string userbindemail = dr["Fuser_login_account"].ToString();
-                            if ((new BankCheckSystemService().EditUserStatus(userbindemail, ((int)UserStatus.冻结).ToString())))
+                            if ((new BankCheckSystemService().EditUserStatus(userbindemail, ((int)UserStatus.IsFreeze).ToString())))
                             {
                                 LogHelper.LogInfo("银行查单系统自动冻结账号成功。登录名=" + userbindemail);
 

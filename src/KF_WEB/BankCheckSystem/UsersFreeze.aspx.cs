@@ -123,13 +123,13 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BankCheckSystem
                 string userbindemail = txt_Fuser_login_account.Text.Trim();
                 string reason = txt_Reason.Text.Trim();
             
-                if ((!new BankCheckSystemService().EditUserStatus(userbindemail, ((int)UserStatus.正常).ToString())))
+                if ((!new BankCheckSystemService().EditUserStatus(userbindemail, ((int)UserStatus.IsNormal).ToString())))
                 {
                     WebUtils.ShowMessage(this.Page, HttpUtility.JavaScriptStringEncode("解冻失败"));
                     return;
                 }
 
-                if (!new BankCheckSystemService().InsertRecords(userbindemail, ((int)OperationType.解冻).ToString(), reason, Session["uid"].ToString()))
+                if (!new BankCheckSystemService().InsertRecords(userbindemail, ((int)OperationType.UnFreeze).ToString(), reason, Session["uid"].ToString()))
                 {
                     WebUtils.ShowMessage(this.Page, HttpUtility.JavaScriptStringEncode("插入操作记录失败"));
                 }
@@ -158,12 +158,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BankCheckSystem
                     return;
                 }
                 string uid = Session["uid"].ToString();
-                if ((!new BankCheckSystemService().EditUserStatus(userbindemail, ((int)UserStatus.冻结).ToString())))
+                if ((!new BankCheckSystemService().EditUserStatus(userbindemail, ((int)UserStatus.IsFreeze).ToString())))
                 {
                     WebUtils.ShowMessage(this.Page, HttpUtility.JavaScriptStringEncode("冻结失败"));
                     return;
                 }
-                if (!new BankCheckSystemService().InsertRecords(userbindemail, ((int)OperationType.冻结).ToString(), reason, uid))
+                if (!new BankCheckSystemService().InsertRecords(userbindemail, ((int)OperationType.Freeze).ToString(), reason, uid))
                 {
                     WebUtils.ShowMessage(this.Page, HttpUtility.JavaScriptStringEncode("插入操作记录失败"));
                 }
@@ -188,12 +188,12 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BankCheckSystem
                 string reason = txt_Reason.Text.Trim();
                 string uid = Session["uid"].ToString();
 
-                if ((!new BankCheckSystemService().EditUserStatus(userbindemail, ((int)UserStatus.作废).ToString())))
+                if ((!new BankCheckSystemService().EditUserStatus(userbindemail, ((int)UserStatus.IsInvalid).ToString())))
                 {
                     WebUtils.ShowMessage(this.Page, HttpUtility.JavaScriptStringEncode("作废失败"));
                     return;
                 }
-                if (!new BankCheckSystemService().InsertRecords(userbindemail, ((int)OperationType.作废).ToString(), reason, uid))
+                if (!new BankCheckSystemService().InsertRecords(userbindemail, ((int)OperationType.ToInvalid).ToString(), reason, uid))
                 {
                     WebUtils.ShowMessage(this.Page, HttpUtility.JavaScriptStringEncode("插入操作记录失败"));
                 }

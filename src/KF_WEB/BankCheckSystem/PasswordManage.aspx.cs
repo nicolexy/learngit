@@ -127,7 +127,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BankCheckSystem
                     str_params = string.Format(str_params, lbl_Fcontact_name.Text.Trim(), newpassword);
                     TENCENT.OSS.C2C.Finance.Common.CommLib.CommMailSend.SendMsg(email, "2591", str_params);
 
-                    if (!new BankCheckSystemService().InsertRecords(txt_Fuser_login_account.Text.Trim(), ((int)OperationType.重置密码).ToString(), "", Session["uid"].ToString()))
+                    if (!new BankCheckSystemService().InsertRecords(txt_Fuser_login_account.Text.Trim(), ((int)OperationType.ResetPWD).ToString(), "", Session["uid"].ToString()))
                     {
                         WebUtils.ShowMessage(this.Page, HttpUtility.JavaScriptStringEncode("插入操作记录失败"));
                     }

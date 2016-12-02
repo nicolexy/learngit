@@ -3,25 +3,54 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace CFT.CSOMS.BLL.BankCheckSystem
 {
+    public class DescriptionAttribute : Attribute
+    {
+        public DescriptionAttribute(string desc)
+        {
+            _Desc = desc;
+        }
+        private string _Desc;
+        public string Desc { get { return _Desc; } }
+    }
+
     public enum OperationType
     {
-        创建帐号 = 20001,
-        重置密码 = 20003,
-        修改用户基本信息 = 20005,
-        冻结 = 20007,
-        作废 = 20009,
-        解冻 = 20011
+        [Description("创建账号")]
+        CreateUser = 20001,
+
+        [Description("重置密码")]
+        ResetPWD = 20003,
+
+        [Description("修改用户基本信息")]
+        ModifyUserInfo = 20005,
+
+        [Description("冻结")]
+        Freeze = 20007,
+
+        [Description("作废")]
+        ToInvalid = 20009,
+
+        [Description("解冻")]
+        UnFreeze = 20011
     }
     public enum UserStatus
     {
-        创建帐号未激活 = 0,
-        正常 = 1,
-        冻结 = 2,
-        作废 = 3,
+        [Description("创建帐号未激活")]
+        IsInitial = 0,
+
+        [Description("正常")]
+        IsNormal = 1,
+
+        [Description("冻结")]
+        IsFreeze = 2,
+
+        [Description("作废")]
+        IsInvalid = 3,
     }
 
     public class BankCheckSystemService
@@ -35,11 +64,30 @@ namespace CFT.CSOMS.BLL.BankCheckSystem
             dic.Add("4", "批量查询");
             return dic;
         }
+        /// <summary>
+        /// 获取枚举的特性
+        /// </summary>
+        /// <param name="myEnum"></param>
+        /// <returns></returns>
+        public string GetEnumDescription(Enum myEnum)
+        {
+            Type type = myEnum.GetType();
+            FieldInfo fd = type.GetField(myEnum.ToString());
+            if (fd == null)
+                return string.Empty;
+            object[] attrs = fd.GetCustomAttributes(typeof(DescriptionAttribute), false);
+            string name = string.Empty;
+            foreach (DescriptionAttribute attr in attrs)
+            {
+                name = attr.Desc;
+            }
+            return name;
+        }
 
 
         public bool UsersAdd(out string pwd, string Fuser_login_account, string Fbank_id, string Fuser_bind_email, string Fuser_name, string Fuser_id_no,
-          string Fcontact_address, string Fcontact_name, string Fcontact_tel, string Fcontact_mobile, string Fuser_id_no_url,
-          string Fcontact_qq, string Fremark, List<string> Fauth_levels)
+              string Fcontact_address, string Fcontact_name, string Fcontact_tel, string Fcontact_mobile, string Fuser_id_no_url,
+              string Fcontact_qq, string Fremark, List<string> Fauth_levels)
         {
             if (string.IsNullOrEmpty(Fuser_bind_email))
             {
@@ -68,7 +116,8 @@ namespace CFT.CSOMS.BLL.BankCheckSystem
             {
                 foreach (DataRow dr in dt.Rows)
                 {
-                    dr["Fuser_status_str"] = System.Enum.Parse(typeof(UserStatus), dr["Fuser_status"].ToString().Trim()).ToString();
+                    //dr["Fuser_status_str"] = System.Enum.Parse(typeof(UserStatus), dr["Fuser_status"].ToString().Trim()).ToString();
+                    dr["Fuser_status_str"] = GetEnumDescription((Enum)System.Enum.Parse(typeof(UserStatus), dr["Fuser_status"].ToString().Trim()));
                 }
             }
             return dt;
@@ -107,7 +156,8 @@ namespace CFT.CSOMS.BLL.BankCheckSystem
                 foreach (DataRow dr in dt.Rows)
                 {
                     dr["Fuser_bind_email"] = Fuser_bind_email;
-                    dr["Ftype_id_str"] = System.Enum.Parse(typeof(OperationType), dr["Ftype_id"].ToString().Trim().ToString()).ToString();
+                    //dr["Ftype_id_str"] = System.Enum.Parse(typeof(OperationType), dr["Ftype_id"].ToString().Trim().ToString()).ToString();
+                    dr["Ftype_id_str"] = GetEnumDescription((Enum)System.Enum.Parse(typeof(OperationType), dr["Ftype_id"].ToString().Trim()));
                 }
             }
             return dt;

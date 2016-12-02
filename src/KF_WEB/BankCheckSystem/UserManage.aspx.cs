@@ -218,7 +218,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BankCheckSystem
                     WebUtils.ShowMessage(this.Page, "修改权限失败！");
                     return;
                 }
-                if (!new BankCheckSystemService().InsertRecords(Fuser_bind_email, ((int)OperationType.修改用户基本信息).ToString(), "", Session["uid"].ToString()))
+                if (!new BankCheckSystemService().InsertRecords(Fuser_bind_email, ((int)OperationType.ModifyUserInfo).ToString(), "", Session["uid"].ToString()))
                 {
                     WebUtils.ShowMessage(this.Page, HttpUtility.JavaScriptStringEncode("插入操作记录失败"));
                     return;
