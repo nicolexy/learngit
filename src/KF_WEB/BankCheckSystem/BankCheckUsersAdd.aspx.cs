@@ -111,7 +111,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BankCheckSystem
                     WebUtils.ShowMessage(this.Page, "添加失败！");
                 }
 
-                if (!new BankCheckSystemService().InsertRecords(Fuser_bind_email, ((int)OperationType.创建帐号).ToString(), "", Session["uid"].ToString()))
+                if (!new BankCheckSystemService().InsertRecords(Fuser_bind_email, ((int)OperationType.CreateUser).ToString(), "", Session["uid"].ToString()))
                 {
                     WebUtils.ShowMessage(this.Page, HttpUtility.JavaScriptStringEncode("插入操作记录失败"));
                 }
