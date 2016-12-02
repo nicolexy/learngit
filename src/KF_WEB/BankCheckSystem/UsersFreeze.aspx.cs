@@ -67,19 +67,19 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BankCheckSystem
             {
                 lblStatus.Text = dt.Rows[0]["Fuser_status_str"].ToString();
                 string status = dt.Rows[0]["Fuser_status"].ToString();
-                if (status == "0" || status == "1")
+                if (status == ((int)UserStatus.IsInitial).ToString() || status == ((int)UserStatus.IsNormal).ToString())
                 {
                     btnFreeze.Visible = true;
                     btnUnFreeze.Visible = false;
                     btnToInvalid.Visible = true;
                 }
-                else if (status == "2")
+                else if (status == ((int)UserStatus.IsFreeze).ToString())
                 {
                     btnFreeze.Visible = false;
                     btnUnFreeze.Visible = true;
                     btnToInvalid.Visible = true;
                 }
-                else if (status == "3")
+                else if (status == ((int)UserStatus.IsInvalid).ToString())
                 {
                     btnFreeze.Visible = false;
                     btnUnFreeze.Visible = false;

@@ -129,6 +129,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BankCheckSystem
                 if (e.CommandName == "detail")
                 {
                     tbDetail.Visible = true;
+                    btnSave.Visible = false;
                     string userId = e.Item.Cells[0].Text.Trim();
                     string userbindemail = e.Item.Cells[1].Text.Trim();
 
@@ -136,6 +137,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BankCheckSystem
                     dt = GetBankType("Fbank_id", "Fbank_id_str",dt);
                     if (dt != null && dt.Rows.Count > 0)
                     {
+                        if (dt.Rows[0]["Fuser_status"].ToString().Trim() != ((int)UserStatus.IsInvalid).ToString())
+                        {
+                            btnSave.Visible = true;
+                        }
+
                         lbl_Fuser_bind_email.Text = dt.Rows[0]["Fuser_bind_email"].ToString();
                         lbl_Fbank_id_str.Text = dt.Rows[0]["Fbank_id_str"].ToString();
                         lbl_Fuser_name.Text = dt.Rows[0]["Fuser_name"].ToString();
@@ -147,10 +153,11 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.BankCheckSystem
                         txt_Fcontact_email.Text = dt.Rows[0]["Fcontact_email"].ToString();
                         txt_Fcontact_manager.Text = dt.Rows[0]["Fcontact_manager"].ToString();
                         txt_Fremark.Text = dt.Rows[0]["Fremark"].ToString();
-
                         btnSave.CommandArgument = dt.Rows[0]["Fuser_id"].ToString();
+
+                        bindRgiht(userId);
                     }
-                    bindRgiht(userId);
+                   
                 }
             }
             catch (LogicException ex)
