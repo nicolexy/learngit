@@ -280,7 +280,8 @@ namespace TENCENT.OSS.CFT.KF.Common
                 rights[206] = new OneRight("IDCardManualReview_ReviewCount", 206, "身份证影印件批量领单权限");
                 rights[210] = new OneRight("IDCardManualReview_SeeDetail", 210, "身份证影印件查看详情权限");
                 rights[211] = new OneRight("ChangeUserInfo", 211, "个人信息");
-				ht = new Hashtable(RIGHTCOUNT);
+                rights[209] = new OneRight("BankCheck", 209, "银行查单系统");
+                ht = new Hashtable(RIGHTCOUNT);
 				for(int i=0 ; i< RIGHTCOUNT; i++)
 				{
 					if(rights[i] != null)

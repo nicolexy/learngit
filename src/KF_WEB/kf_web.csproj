@@ -213,6 +213,41 @@
     <Compile Include="Auto\BatchFreezeAppeal.aspx.designer.cs">
       <DependentUpon>BatchFreezeAppeal.aspx</DependentUpon>
     </Compile>
+    <Compile Include="BankCheckSystem\AutoNoticeAndFreeze.aspx.cs">
+      <DependentUpon>AutoNoticeAndFreeze.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BankCheckSystem\AutoNoticeAndFreeze.aspx.designer.cs">
+      <DependentUpon>AutoNoticeAndFreeze.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="BankCheckSystem\BankCheckUsersAdd.aspx.cs">
+      <DependentUpon>BankCheckUsersAdd.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BankCheckSystem\BankCheckUsersAdd.aspx.designer.cs">
+      <DependentUpon>BankCheckUsersAdd.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="BankCheckSystem\PasswordManage.aspx.cs">
+      <DependentUpon>PasswordManage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BankCheckSystem\PasswordManage.aspx.designer.cs">
+      <DependentUpon>PasswordManage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="BankCheckSystem\UserManage.aspx.cs">
+      <DependentUpon>UserManage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BankCheckSystem\UserManage.aspx.designer.cs">
+      <DependentUpon>UserManage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="BankCheckSystem\UsersFreeze.aspx.cs">
+      <DependentUpon>UsersFreeze.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BankCheckSystem\UsersFreeze.aspx.designer.cs">
+      <DependentUpon>UsersFreeze.aspx</DependentUpon>
+    </Compile>
     <Compile Include="BaseAccount\BankCardUnbind.aspx.cs">
       <DependentUpon>BankCardUnbind.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -2977,6 +3012,11 @@
     <Content Include="Auto\BatchFreezeAppeal.aspx">
       <SubType>Form</SubType>
     </Content>
+    <Content Include="BankCheckSystem\AutoNoticeAndFreeze.aspx" />
+    <Content Include="BankCheckSystem\BankCheckUsersAdd.aspx" />
+    <Content Include="BankCheckSystem\PasswordManage.aspx" />
+    <Content Include="BankCheckSystem\UserManage.aspx" />
+    <Content Include="BankCheckSystem\UsersFreeze.aspx" />
     <Content Include="BaseAccount\BankCardUnbind.aspx">
       <SubType>Form</SubType>
     </Content>

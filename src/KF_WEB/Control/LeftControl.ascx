@@ -196,6 +196,7 @@ BODY { BACKGROUND-IMAGE: url(./IMAGES/Page/bg01.gif) }
                         <uc1:DFManageControl id="DFManageControl1" runat="server" Visible="false"></uc1:DFManageControl><!--代付查询-->
                         <uc1:TravelPlatform ID="TravelPlatform1" runat="server"  Visible="false"/><!--旅行平台-->
                         <uc1:ForeignCurrencyAccount ID="ForeignCurrencyAccount1" runat="server"  Visible="false"/><!--外币商户管理-->
+                        <uc1:MenuControl runat="server" ID="BankCheckSystemMenu"  Visible="false"/><!--银行查单系统-->
                   </td>
                 </tr>
                 <tr style="cursor:pointer;" name="menu_one" onclick="javascript:showHidenMenu('sysManagement')">

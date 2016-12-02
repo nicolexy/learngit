@@ -90,6 +90,7 @@
     <Compile Include="AutoRecharge\AutoRechargeService.cs" />
     <Compile Include="BalanceModule\BalaceService.cs" />
     <Compile Include="BankCardBindModule\BankCardBindService.cs" />
+    <Compile Include="BankCheckSystem\BankCheckSystemService.cs" />
     <Compile Include="CFTAccountModule\AccountOperate.cs" />
     <Compile Include="CFTAccountModule\AccountService.cs" />
     <Compile Include="CFTAccountModule\AuthenInfoService.cs" />

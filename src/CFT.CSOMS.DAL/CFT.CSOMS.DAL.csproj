@@ -95,6 +95,7 @@
     <Compile Include="AutoRechargeModule\AutoRechargeData.cs" />
     <Compile Include="BalanceModule\BalanceData.cs" />
     <Compile Include="BankcardUnbind\BankcardbindData.cs" />
+    <Compile Include="BankCheckSystem\BankCheckSystemData.cs" />
     <Compile Include="CFTAccount\AccountData.cs" />
     <Compile Include="CFTAccount\CertificateData.cs" />
     <Compile Include="CheckModoule\CheckData.cs" />
