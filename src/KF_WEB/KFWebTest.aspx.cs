@@ -276,14 +276,14 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
 
             LogHelper.LogInfo(" test.aspx  private void GetDBConnStr  strKey：" + strkey + ",dbstr:" + dbstr);
 
-            string qq = "404968099";
-            if (Request["qq"] != null)
-            {
-                qq = Request["qq"].ToString();
-            }
-            this.Label1.Text = dbstr;
+            //string qq = "404968099";
+            //if (Request["qq"] != null)
+            //{
+            //    qq = Request["qq"].ToString();
+            //}
+            //this.Label1.Text = dbstr;
 
-            bindshimingrzData(qq);
+            //bindshimingrzData(qq);
 
             Response.Write(dbstr);
 
