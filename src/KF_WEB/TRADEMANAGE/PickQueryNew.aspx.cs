@@ -215,6 +215,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
             bool isRight = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
             //DataSet ds = pickservice.GetPickList(idtype, u_ID, begindate, enddate, fstate, fnum, banktype, sorttype, cash_type, start, max);
             DataSet ds = pickservice.GetPickListFromDB(idtype, u_ID, begindate, enddate, fstate, fnum, banktype, sorttype, cash_type, start, max);
+            //Faid,Fuid,Faname,Facc_name,Fnum,Fcharge,FaBankID,Fsign,Fpay_front_time,Fpay_front_time_acc,
+            //Ftde_id,Fbankid,Fstate,'' as FRTFlagName,''as FPayBankName ,'' as FNewNum ,'' as FStateName ,Flistid ,Fmemo,Fabank_type,'' as FabanktypeName ,
+            //'' as FNewCharge ,Frefund_ticket_flag,Fbank_type,'' as  FPayBankName,'' as  FRTFlagName,Fsp_batch
             if (ds != null && ds.Tables.Count >0 && ds.Tables[0].Rows.Count > 0)
 			{
 				ds.Tables[0].Columns.Add("FNewNumFlag",typeof(String));
