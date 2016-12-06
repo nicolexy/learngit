@@ -242,72 +242,52 @@ namespace CFT.CSOMS.DAL.BankCheckSystem
         /// <returns></returns>
         public string getRandomizer(int intLength)
         {
+            string strLetter = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";//字母
+            string strNumber = "0123456789";//数字
+            string strSymbol = "!@#$%^&*()_-+=,.?";//符号
             //定义
             Random ranA = new Random();
             int intResultRound = 0;
             int intA = 0;
             string strB = "";
 
-            //大写字母
-            intA = ranA.Next(65, 89);
-            strB = strB + ((char)intA).ToString();
-            //小写字母
-            intA = ranA.Next(97, 123);
-            strB = strB + ((char)intA).ToString();
+            //字母
+            intA = ranA.Next(0, strLetter.Length);
+            strB = strB + strLetter[intA];
             //符号
-            intA = ranA.Next(33, 47);
-            strB = strB + ((char)intA).ToString();
+            intA = ranA.Next(0, strSymbol.Length);
+            strB = strB + strSymbol[intA];
             //数字
-            intA = ranA.Next(0, 10);
-            strB = strB + intA.ToString();
+            intA = ranA.Next(0, strNumber.Length);
+            strB = strB + strNumber[intA];
 
-            while (intResultRound < (intLength-4))
+            while (intResultRound < (intLength - 3))
             {
                 //生成随机数A，表示生成类型
-                //1=数字，2=符号，3=小写字母，4=大写字母
-                intA = ranA.Next(1, 5);
-                //如果随机数A=1，则运行生成数字
-                //生成随机数A，范围在0-10
-                //把随机数A，转成字符
-                //生成完，位数+1，字符串累加，结束本次循环
+                //1=数字，2=符号，3=字母
+                intA = ranA.Next(1, 4);
+
+                //1=数字
                 if (intA == 1)
                 {
-                    intA = ranA.Next(0, 10);
-                    strB = strB + intA.ToString();
+                    intA = ranA.Next(0, strNumber.Length);
+                    strB = strB + strNumber[intA];
                     intResultRound = intResultRound + 1;
                     continue;
                 }
-                //如果随机数A=2，则运行生成符号
-                //生成随机数A，表示生成值域
-                //1：33-47值域
+                //2=符号
                 if (intA == 2)
                 {
-                    intA = ranA.Next(33, 47);
-                    strB = strB + ((char)intA).ToString();
+                    intA = ranA.Next(0, strSymbol.Length);
+                    strB = strB + strSymbol[intA];
                     intResultRound = intResultRound + 1;
                     continue;
                 }
-
-                //如果随机数A=3，则运行生成小写字母
-                //生成随机数A，范围在97-122
-                //把随机数A，转成字符
-                //生成完，位数+1，字符串累加，结束本次循环
+                //3=字母
                 if (intA == 3)
                 {
-                    intA = ranA.Next(97, 123);
-                    strB = strB + ((char)intA).ToString();
-                    intResultRound = intResultRound + 1;
-                    continue;
-                }
-
-                //如果随机数A=4，则运行生成大写字母
-                //生成随机数A，范围在65-90
-                //把随机数A，转成字符
-                //生成完，位数+1，字符串累加，结束本次循环
-                if (intA == 4)
-                {
-                    intA = ranA.Next(65, 89);
-                    strB = strB + ((char)intA).ToString();
+                    intA = ranA.Next(0, strLetter.Length);
+                    strB = strB + strLetter[intA];
                     intResultRound = intResultRound + 1;
                     continue;
                 }
@@ -347,10 +327,10 @@ namespace CFT.CSOMS.DAL.BankCheckSystem
                 da.OpenConn();
                 da.StartTran();
 
-                string sql1 = "DELETE FROM c2c_kfbssdb.t_userauth_relation WHERE Fuser_id=?";
+                string sql1 = "DELETE FROM c2c_zwdb.t_userauth_relation WHERE Fuser_id=?";
                 da.ExecSql_Parameters(sql1, new List<string>() { userId });
 
-                string sql5 = "INSERT INTO c2c_kfbssdb.t_userauth_relation set Fuser_id=?,Fauth_level=?,Fcreate_time=?;";
+                string sql5 = "INSERT INTO c2c_zwdb.t_userauth_relation set Fuser_id=?,Fauth_level=?,Fcreate_time=?;";
                 foreach (string item in rights)
                 {
                     List<string> paramers6 = new List<string>() { userId, item, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") };
