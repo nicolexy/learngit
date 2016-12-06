@@ -17,6 +17,14 @@ namespace CFT.CSOMS.BLL.TradeModule
             return new PickData().GetPickList(u_ID, idtype, u_BeginTime, u_EndTime, fstate, fnum, banktype, sorttype, cashtype, iPageStart, iPageMax);
         }
 
+        /// <summary>
+        /// 提现单查询，set1-4备机查询
+        /// </summary>
+        public DataSet GetPickListFromDB(int idtype, string u_ID, DateTime begindate, DateTime enddate, int fstate, float fnum, string banktype, string sorttype, string cash_type, int start, int max)
+        {
+            return new PickData().GetPickListFromDB(u_ID, idtype, begindate, enddate, fstate, fnum, banktype, sorttype, cash_type, start, max);
+        }
+
         public DataTable GetFetchListIntercept(string fetchListid)
         {
             if (string.IsNullOrEmpty(fetchListid))

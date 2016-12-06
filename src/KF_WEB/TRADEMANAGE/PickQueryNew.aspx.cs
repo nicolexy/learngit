@@ -213,8 +213,9 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 			int max = pager.PageSize;
 			int start = max * (index-1) + 1;
             bool isRight = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
-            DataSet ds = pickservice.GetPickList(idtype, u_ID, begindate, enddate, fstate, fnum, banktype, sorttype, cash_type, start, max);
-			if(ds != null && ds.Tables.Count >0 && ds.Tables[0].Rows.Count > 0)
+            //DataSet ds = pickservice.GetPickList(idtype, u_ID, begindate, enddate, fstate, fnum, banktype, sorttype, cash_type, start, max);
+            DataSet ds = pickservice.GetPickListFromDB(idtype, u_ID, begindate, enddate, fstate, fnum, banktype, sorttype, cash_type, start, max);
+            if (ds != null && ds.Tables.Count >0 && ds.Tables[0].Rows.Count > 0)
 			{
 				ds.Tables[0].Columns.Add("FNewNumFlag",typeof(String));
                 ds.Tables[0].Columns.Add("FaBankID_str", typeof(String)); //“¯––’À∫≈
