@@ -830,8 +830,6 @@ namespace CFT.CSOMS.DAL.TradeModule
                 {
                     commWhere += " and Fabank_type=" + banktype + " ";
                 }
-
-                commWhere += string.Format(" limit {0},{1} ",iPageStart,iPageMax);
                 #endregion
                 string querySql = string.Empty;
 
@@ -849,7 +847,9 @@ namespace CFT.CSOMS.DAL.TradeModule
                             //string table = GetPayListTableFromUID(uid);
                             //var pickDS = GetTCPBackUpDataBase(table, commWhere);
 
-                             querySql = GetPickSql(u_BeginTime, u_EndTime, commWhere);
+                            commWhere += string.Format(" limit {0},{1} ", iPageStart, iPageMax);
+
+                            querySql = GetPickSql(u_BeginTime, u_EndTime, commWhere);
                             return GetList(querySql);
                         }
                         else
@@ -879,7 +879,9 @@ namespace CFT.CSOMS.DAL.TradeModule
                             commWhere += "  and Fabankid='" + u_ID + "' ";
                         }
 
-                         querySql = GetPickSql(u_BeginTime, u_EndTime, commWhere);
+                        commWhere += string.Format(" limit {0},{1} ", iPageStart, iPageMax);
+
+                        querySql = GetPickSql(u_BeginTime, u_EndTime, commWhere);
                         return GetList(querySql);
                     }
                     else if (idtype == 2)
@@ -944,6 +946,8 @@ namespace CFT.CSOMS.DAL.TradeModule
                 tmpDate = DateTime.Parse(strTmp + "01 00:00:01");
                 flag = true;
             }
+
+            LogHelper.LogError("提现查询querysql:" + strGroup);
 
             return strGroup;
         }
