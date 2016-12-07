@@ -388,7 +388,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
                 LogHelper.LogInfo(" KFWebTest.aspx  请上传文件");
 
                 throw new ArgumentNullException("请上传文件");
-
             }
 
             if (System.IO.Path.GetExtension(fileqqid.FileName).ToLower() == ".txt")
@@ -562,7 +561,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web
                 attValue = Transfer.convertProAttType(attid);
             }
             string fcompany_name = classLibrary.setConfig.GetStringStr(ds.Tables[0].Rows[0]["Fcompany_name"]);
-            LogHelper.LogInfo(string.Format("==========,{0},{1},{2},{3}", qqid, attValue, userType, fcompany_name));
+            LogHelper.LogInfo(string.Format("==========,{0},{1},{2},{3},{4},{5}", qqid, oldatttype, attValue, userType, userType_str, fcompany_name));
 
             return true;
 
