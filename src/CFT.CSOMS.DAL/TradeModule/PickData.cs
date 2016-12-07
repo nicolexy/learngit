@@ -833,6 +833,7 @@ namespace CFT.CSOMS.DAL.TradeModule
 
                 commWhere += string.Format(" limit {0},{1} ",iPageStart,iPageMax);
                 #endregion
+                string querySql = string.Empty;
 
                 #region 根据帐号、银行卡、提现单号确定库表名
                 if (!string.IsNullOrEmpty(u_ID))
@@ -848,25 +849,8 @@ namespace CFT.CSOMS.DAL.TradeModule
                             //string table = GetPayListTableFromUID(uid);
                             //var pickDS = GetTCPBackUpDataBase(table, commWhere);
 
-                            DateTime tmpDate = u_BeginTime;
-                            bool flag = false;
-                            string strGroup = "";
-                            while (tmpDate <= u_EndTime && tmpDate > DateTime.Parse("2012-04-01")) //旧数据没有历史表
-                            {
-                                string TableName = " " + tmpDate.ToString("yyyyMM");
-                                if (flag)
-                                {
-                                    strGroup += "  union all  ";
-                                }
-                                strGroup += " select Faid,Fuid,Faname,Facc_name,Fnum,Fbank_name,Fbusiness_type,Fpay_time,Fmodify_time,Fstandby3,Fbusiness_type,Fpay_time,Fmodify_time,Fstandby3,Fcharge,FaBankID,Fsign,Fpay_front_time,Fpay_front_time_acc,Ftde_id,Fbankid,Fstate,'' as FRTFlagName,''as FPayBankName ,'' as FNewNum ,Flistid ,Fmemo,Fabank_type,'' as FabanktypeName , '' as FNewCharge ,Frefund_ticket_flag,Fbank_type,'' as  FPayBankName,'' as  FRTFlagName,Fsp_batch  from " + TableName + "  " + commWhere + "  ";
-
-                                tmpDate = tmpDate.AddMonths(1);
-
-                                string strTmp = tmpDate.ToString("yyyy-MM-");
-                                tmpDate = DateTime.Parse(strTmp + "01 00:00:01");
-                                flag = true;
-                            }
-                            return GetList(strGroup);
+                             querySql = GetPickSql(u_BeginTime, u_EndTime, commWhere);
+                            return GetList(querySql);
                         }
                         else
                         {
@@ -895,25 +879,8 @@ namespace CFT.CSOMS.DAL.TradeModule
                             commWhere += "  and Fabankid='" + u_ID + "' ";
                         }
 
-                        DateTime tmpDate = u_BeginTime;
-                        bool flag = false;
-                        string strGroup = "";
-                        while (tmpDate <= u_EndTime && tmpDate > DateTime.Parse("2012-04-01")) //旧数据没有历史表
-                        {
-                            string TableName = " " + tmpDate.ToString("yyyyMM");
-                            if (flag)
-                            {
-                                strGroup += "  union all  ";
-                            }
-                            strGroup += " select Faid,Fuid,Faname,Facc_name,Fnum,Fbank_name,Fbusiness_type,Fpay_time,Fmodify_time,Fstandby3,Fbusiness_type,Fpay_time,Fmodify_time,Fstandby3,Fcharge,FaBankID,Fsign,Fpay_front_time,Fpay_front_time_acc,Ftde_id,Fbankid,Fstate,'' as FRTFlagName,''as FPayBankName ,'' as FNewNum ,Flistid ,Fmemo,Fabank_type,'' as FabanktypeName , '' as FNewCharge ,Frefund_ticket_flag,Fbank_type,'' as  FPayBankName,'' as  FRTFlagName,Fsp_batch  from " + TableName + "  " + commWhere + "  ";
-
-                            tmpDate = tmpDate.AddMonths(1);
-
-                            string strTmp = tmpDate.ToString("yyyy-MM-");
-                            tmpDate = DateTime.Parse(strTmp + "01 00:00:01");
-                            flag = true;
-                        }
-                        return GetList(strGroup);
+                         querySql = GetPickSql(u_BeginTime, u_EndTime, commWhere);
+                        return GetList(querySql);
                     }
                     else if (idtype == 2)
                     {
@@ -934,28 +901,14 @@ namespace CFT.CSOMS.DAL.TradeModule
                         return ds;
                     }
                 }
+
                 #endregion
 
                 #region 根据时间段查询
-                DateTime tmpDate1 = u_BeginTime;
-                bool flag1 = false;
-                string strGroup1 = "";
-                while (tmpDate1 <= u_EndTime && tmpDate1 > DateTime.Parse("2012-04-01")) //旧数据没有历史表
-                {
-                    string TableName = "c2c_db.t_tcpay_list_" + tmpDate1.ToString("yyyyMM");
-                    if (flag1)
-                    {
-                        strGroup1 += "  union all  ";
-                    }
-                    strGroup1 = strGroup1 + " select Faid,Fuid,Faname,Facc_name,Fnum,Fbank_name,Fcharge,FaBankID,Fsign,Fpay_front_time,Fpay_front_time_acc,Ftde_id,Fbankid,Fstate,'' as FRTFlagName,''as FPayBankName ,'' as FNewNum ,Flistid ,Fmemo,Fabank_type,'' as FabanktypeName , '' as FNewCharge ,Frefund_ticket_flag,Fbank_type,'' as  FPayBankName,'' as  FRTFlagName,Fsp_batch  from " + TableName + "  " + commWhere + "  ";
 
-                    tmpDate1 = tmpDate1.AddMonths(1);
+                 querySql = GetPickSql(u_BeginTime, u_EndTime,commWhere);
+                return GetList(querySql);
 
-                    string strTmp = tmpDate1.ToString("yyyy-MM-");
-                    tmpDate1 = DateTime.Parse(strTmp + "01 00:00:01");
-                    flag1 = true;
-                }
-                return GetList(strGroup1);
                 #endregion
             }
             catch (System.Exception ex)
@@ -963,6 +916,36 @@ namespace CFT.CSOMS.DAL.TradeModule
                 LogHelper.LogError("提现查询异常" + ex, "GetPickList");
                 throw new Exception("提现查询异常" + ex.Message);
             }
+        }
+
+        /// <summary>
+        /// 获取提现单查询sql
+        /// </summary>
+        /// <param name="u_BeginTime"></param>
+        /// <param name="u_EndTime"></param>
+        /// <returns></returns>
+        private string GetPickSql(DateTime u_BeginTime, DateTime u_EndTime,string commWhere)
+        {
+            DateTime tmpDate = u_BeginTime;
+            bool flag = false;
+            string strGroup = "";
+            while (tmpDate <= u_EndTime && tmpDate > DateTime.Parse("2012-04-01")) //旧数据没有历史表
+            {
+                string TableName = "c2c_db.t_tcpay_list_" + tmpDate.ToString("yyyyMM");
+                if (flag)
+                {
+                    strGroup += "  union all  ";
+                }
+                strGroup += " select Faid,Fuid,Faname,Facc_name,Fnum,Fbank_name,Fbusiness_type,Fpay_time,Fmodify_time,Fstandby3,Fbusiness_type,Fpay_time,Fmodify_time,Fstandby3,Fcharge,FaBankID,Fsign,Fpay_front_time,Fpay_front_time_acc,Ftde_id,Fbankid,Fstate,'' as FRTFlagName,''as FPayBankName ,'' as FNewNum ,Flistid ,Fmemo,Fabank_type,'' as FabanktypeName , '' as FNewCharge ,Frefund_ticket_flag,Fbank_type,'' as  FPayBankName,'' as  FRTFlagName,Fsp_batch  from " + TableName + "  " + commWhere + "  ";
+
+                tmpDate = tmpDate.AddMonths(1);
+
+                string strTmp = tmpDate.ToString("yyyy-MM-");
+                tmpDate = DateTime.Parse(strTmp + "01 00:00:01");
+                flag = true;
+            }
+
+            return strGroup;
         }
 
         #endregion
