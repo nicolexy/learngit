@@ -894,8 +894,8 @@ namespace CFT.CSOMS.DAL.TradeModule
                         GetPayListTableFromID(u_ID, out currTable, out otherTable);
                         if (!string.IsNullOrEmpty(currTable))
                         {
-                            strGroup += "  select Faid,Fuid,Faname,Facc_name,Fnum,Fbank_name,Fbusiness_type,Fpay_time,Fmodify_time,Fstandby3,Fcharge,FaBankID,Fsign,Fpay_front_time,Fpay_front_time_acc,Ftde_id,Fbankid,Fstate,'' as FRTFlagName,''as FPayBankName ,'' as FNewNum ,Flistid ,Fmemo,Fabank_type,'' as FabanktypeName ,'' as FNewCharge ,Frefund_ticket_flag,Fbank_type,'' as  FPayBankName ,'' as  FRTFlagName,Fsp_batch from " + currTable + "   where  Flistid='" + u_ID + "' union all ";
-                            strGroup += "  select Faid,Fuid,Faname,Facc_name,Fnum,Fbank_name,Fbusiness_type,Fpay_time,Fmodify_time,Fstandby3,Fcharge,FaBankID,Fsign,Fpay_front_time,Fpay_front_time_acc,Ftde_id,Fbankid,Fstate,'' as FRTFlagName,''as FPayBankName ,'' as FNewNum ,Flistid ,Fmemo,Fabank_type,'' as FabanktypeName ,'' as FNewCharge ,Frefund_ticket_flag,Fbank_type,'' as  FPayBankName ,'' as  FRTFlagName,Fsp_batch  from " + otherTable + "   where Flistid='" + u_ID + "'  ";
+                            strGroup += "  select Faid,Fuid,Faname,Facc_name,Fnum,Fbank_name,Fproduct,Fbusiness_type,Fpay_time,Fmodify_time,Fstandby3,Fcharge,FaBankID,Fsign,Fpay_front_time,Fpay_front_time_acc,Ftde_id,Fbankid,Fstate,'' as FRTFlagName,''as FPayBankName ,'' as FNewNum ,Flistid ,Fmemo,Fabank_type,'' as FabanktypeName ,'' as FNewCharge ,Frefund_ticket_flag,Fbank_type,'' as  FPayBankName ,'' as  FRTFlagName,Fsp_batch from " + currTable + "   where  Flistid='" + u_ID + "' union all ";
+                            strGroup += "  select Faid,Fuid,Faname,Facc_name,Fnum,Fbank_name,Fproduct,Fbusiness_type,Fpay_time,Fmodify_time,Fstandby3,Fcharge,FaBankID,Fsign,Fpay_front_time,Fpay_front_time_acc,Ftde_id,Fbankid,Fstate,'' as FRTFlagName,''as FPayBankName ,'' as FNewNum ,Flistid ,Fmemo,Fabank_type,'' as FabanktypeName ,'' as FNewCharge ,Frefund_ticket_flag,Fbank_type,'' as  FPayBankName ,'' as  FRTFlagName,Fsp_batch  from " + otherTable + "   where Flistid='" + u_ID + "'  ";
                         }
                         DataTable dt = GetDataByListID(u_ID, strGroup);
                         DataSet ds = new DataSet();
@@ -946,7 +946,7 @@ namespace CFT.CSOMS.DAL.TradeModule
                 {
                     strGroup += "  union all  ";
                 }
-                strGroup += " select Faid,Fuid,Faname,Facc_name,Fnum,Fbank_name,Fbusiness_type,Fpay_time,Fmodify_time,Fstandby3,Fbusiness_type,Fpay_time,Fmodify_time,Fstandby3,Fcharge,FaBankID,Fsign,Fpay_front_time,Fpay_front_time_acc,Ftde_id,Fbankid,Fstate,'' as FRTFlagName,''as FPayBankName ,'' as FNewNum ,Flistid ,Fmemo,Fabank_type,'' as FabanktypeName , '' as FNewCharge ,Frefund_ticket_flag,Fbank_type,'' as  FPayBankName,'' as  FRTFlagName,Fsp_batch  from " + TableName + "  " + commWhere + "  ";
+                strGroup += " select Faid,Fuid,Faname,Facc_name,Fnum,Fbank_name,Fproduct,Fbusiness_type,Fpay_time,Fmodify_time,Fstandby3,Fbusiness_type,Fpay_time,Fmodify_time,Fstandby3,Fcharge,FaBankID,Fsign,Fpay_front_time,Fpay_front_time_acc,Ftde_id,Fbankid,Fstate,'' as FRTFlagName,''as FPayBankName ,'' as FNewNum ,Flistid ,Fmemo,Fabank_type,'' as FabanktypeName , '' as FNewCharge ,Frefund_ticket_flag,Fbank_type,'' as  FPayBankName,'' as  FRTFlagName,Fsp_batch  from " + TableName + "  " + commWhere + "  ";
 
                 tmpDate = tmpDate.AddMonths(1);
 
