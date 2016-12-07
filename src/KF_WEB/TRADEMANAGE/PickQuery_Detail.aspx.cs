@@ -134,6 +134,8 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
             if (dt != null && dt.Rows.Count > 0 )
 			{
+                dt.Columns.Add("FNewNum", typeof(String));
+
 				DataRow dr = dt.Rows[0];
 				labFListID.Text = PublicRes.GetString(dr["FListID"]);
 
@@ -145,7 +147,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
 				string[] CoverPickFuid = System.Configuration.ConfigurationManager.AppSettings["CoverPickFuid"].ToString().Split('|');
 
-				for(int i=0; i<CoverPickFuid.Length; i++)
+                for (int i=0; i<CoverPickFuid.Length; i++)
 				{
 					if(CoverPickFuid[i].ToString() == dr["Fuid"].ToString())
 					{
