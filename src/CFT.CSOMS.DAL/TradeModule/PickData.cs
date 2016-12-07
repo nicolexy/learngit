@@ -73,62 +73,64 @@ namespace CFT.CSOMS.DAL.TradeModule
         /// <returns></returns>
         public DataSet QueryPickByListid(string listid, string stime, string etime, int fstate, float fnum, string banktype, string cashtype)
         {
-            if (string.IsNullOrEmpty(stime))
-            {
-                //如果日期为空，使用提现单号解析的日期，这个日期一般比Fpay_front_time_acc 大两天左右，
-                //Fpay_front_time_acc为提现单生成的日期
-                //数据库分表以提现单号解析的日期为准。
-                //如果根据Fpay_front_time_acc和listid查询提现单，Fpay_front_time_acc的开始时间应该为listid的时间，结束时间应该在下一月底。
+          return  new PickData().GetPickListFromDB(listid, 2, DateTime.Now.AddDays(-1), DateTime.Now, fstate, fnum, banktype, "", cashtype, 0, 1);
 
-                DateTime DateStart = GetPayListTableFromID(listid);
-                DateTime DateEnd = DateStart.AddDays(-DateStart.Day).AddMonths(2);
-                stime = DateStart.ToString("yyyy-MM-dd");
-                etime = DateEnd.ToString("yyyy-MM-dd");
-            }
+            //if (string.IsNullOrEmpty(stime))
+            //{
+            //    //如果日期为空，使用提现单号解析的日期，这个日期一般比Fpay_front_time_acc 大两天左右，
+            //    //Fpay_front_time_acc为提现单生成的日期
+            //    //数据库分表以提现单号解析的日期为准。
+            //    //如果根据Fpay_front_time_acc和listid查询提现单，Fpay_front_time_acc的开始时间应该为listid的时间，结束时间应该在下一月底。
 
-            string fields = "listid:" + listid + "|begintime:" + stime + "|endtime:" + etime;
-            if (fstate != 0)
-            {
-                fields += "|sign:" + fstate.ToString();
-            }
-            long num = (long)Math.Round(fnum * 100, 0);
+            //    DateTime DateStart = GetPayListTableFromID(listid);
+            //    DateTime DateEnd = DateStart.AddDays(-DateStart.Day).AddMonths(2);
+            //    stime = DateStart.ToString("yyyy-MM-dd");
+            //    etime = DateEnd.ToString("yyyy-MM-dd");
+            //}
 
-            fields += "|num:" + num.ToString();
+            //string fields = "listid:" + listid + "|begintime:" + stime + "|endtime:" + etime;
+            //if (fstate != 0)
+            //{
+            //    fields += "|sign:" + fstate.ToString();
+            //}
+            //long num = (long)Math.Round(fnum * 100, 0);
 
-            if (banktype != "0000")
-            {
-                fields += "|banktype:" + banktype;
-            }
-            if (cashtype != "0000")
-            {
-                fields += "|bankid:" + cashtype;
-            }
+            //fields += "|num:" + num.ToString();
 
-            //2416:查询库表c2c_db.t_tcpay_list_$YYYY$$MM$
-            //2427:查询库表c2c_db.t_tcpay_list_$YYYY$$MM$(spider)
-            //2417:查询库表c2c_db.t_tcpay_list 
-            //2431:查询库表c2c_db.t_tcpay_list_$YYYY$$MM$(SET2)
+            //if (banktype != "0000")
+            //{
+            //    fields += "|banktype:" + banktype;
+            //}
+            //if (cashtype != "0000")
+            //{
+            //    fields += "|bankid:" + cashtype;
+            //}
+
+            ////2416:查询库表c2c_db.t_tcpay_list_$YYYY$$MM$
+            ////2427:查询库表c2c_db.t_tcpay_list_$YYYY$$MM$(spider)
+            ////2417:查询库表c2c_db.t_tcpay_list 
+            ////2431:查询库表c2c_db.t_tcpay_list_$YYYY$$MM$(SET2)
 
 
-            Hashtable param = new Hashtable();
-            DateTime Datestime = Convert.ToDateTime(stime);
-            if (Datestime > DateTime.Now.AddDays(-PickRecordKeepTime * 30))
-            {
-                param.Add("2416", fields);
-                param.Add("2417", fields);
-                param.Add("2431", fields);
-                param.Add("2427", fields);
-            }
-            else
-            {
-                param.Add("2427", fields);
-                param.Add("2416", fields);
-                param.Add("2417", fields);
-                param.Add("2431", fields);
+            //Hashtable param = new Hashtable();
+            //DateTime Datestime = Convert.ToDateTime(stime);
+            //if (Datestime > DateTime.Now.AddDays(-PickRecordKeepTime * 30))
+            //{
+            //    param.Add("2416", fields);
+            //    param.Add("2417", fields);
+            //    param.Add("2431", fields);
+            //    param.Add("2427", fields);
+            //}
+            //else
+            //{
+            //    param.Add("2427", fields);
+            //    param.Add("2416", fields);
+            //    param.Add("2417", fields);
+            //    param.Add("2431", fields);
 
-            }
-            DataSet ds = multi_query(param, 0, 1, false);
-            return ds;
+            //}
+            //DataSet ds = multi_query(param, 0, 1, false);
+            //return ds;
         }
 
 
@@ -390,7 +392,7 @@ namespace CFT.CSOMS.DAL.TradeModule
         private static string GetPayListTableFromUID(string uid)
         {
             try
-            {//467782027
+            {//467782027,50000396078
                 if (!string.IsNullOrEmpty(uid))
                 {
                     string db = "c2c_db_" + uid.Substring(uid.Length - 2, 2);
@@ -423,7 +425,7 @@ namespace CFT.CSOMS.DAL.TradeModule
             {
                  daTCP2 = MySQLAccessFactory.GetMySQLAccess("TCP2");
 
-                string strSql = " select Faid,Fuid,Faname,Facc_name,Fnum,Fcharge,FaBankID,Fsign,Fpay_front_time,Fpay_front_time_acc,Ftde_id,Fbankid,Fstate,'' as FRTFlagName,''as FPayBankName ,'' as FNewNum ,Flistid ,Fmemo,Fabank_type,'' as FabanktypeName , '' as FNewCharge ,Frefund_ticket_flag,Fbank_type,'' as  FPayBankName,'' as  FRTFlagName,Fsp_batch  from " + table + "  " + commWhere + "  ";
+                string strSql = " select Faid,Fuid,Faname,Facc_name,Fnum,Fcharge,FaBankID,Fbank_name,Fsign,Fpay_front_time,Fpay_front_time_acc,Ftde_id,Fbankid,Fstate,'' as FRTFlagName,''as FPayBankName ,'' as FNewNum ,Flistid ,Fmemo,Fabank_type,'' as FabanktypeName , '' as FNewCharge ,Frefund_ticket_flag,Fbank_type,'' as  FPayBankName,'' as  FRTFlagName,Fsp_batch  from " + table + "  " + commWhere + "  ";
                 daTCP2.OpenConn();
 
                  pickData = daTCP2.dsGetTotalData(strSql);
@@ -874,7 +876,7 @@ namespace CFT.CSOMS.DAL.TradeModule
                             {
                                 strGroup += "  union all  ";
                             }
-                            strGroup = strGroup + " select Faid,Fuid,Faname,Facc_name,Fnum,Fbank_name,Fcharge,FaBankID,Fsign,Fpay_front_time,Fpay_front_time_acc,Ftde_id,Fbankid,Fstate,'' as FRTFlagName,''as FPayBankName ,'' as FNewNum ,Flistid ,Fmemo,Fabank_type,'' as FabanktypeName , '' as FNewCharge ,Frefund_ticket_flag,Fbank_type,'' as  FPayBankName,'' as  FRTFlagName,Fsp_batch  from " + TableName + "  " + commWhere + "  ";
+                            strGroup += " select Faid,Fuid,Faname,Facc_name,Fnum,Fbank_name,Fcharge,FaBankID,Fsign,Fpay_front_time,Fpay_front_time_acc,Ftde_id,Fbankid,Fstate,'' as FRTFlagName,''as FPayBankName ,'' as FNewNum ,Flistid ,Fmemo,Fabank_type,'' as FabanktypeName , '' as FNewCharge ,Frefund_ticket_flag,Fbank_type,'' as  FPayBankName,'' as  FRTFlagName,Fsp_batch  from " + TableName + "  " + commWhere + "  ";
 
                             tmpDate = tmpDate.AddMonths(1);
 
