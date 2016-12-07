@@ -134,8 +134,6 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
             if (dt != null && dt.Rows.Count > 0 )
 			{
-                dt.Columns.Add("FNewNum", typeof(String));
-
 				DataRow dr = dt.Rows[0];
 				labFListID.Text = PublicRes.GetString(dr["FListID"]);
 
