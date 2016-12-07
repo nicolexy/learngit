@@ -48,9 +48,9 @@ namespace CFT.CSOMS.BLL.TradeModule
             return (new PickData()).AddFetchListIntercept(fetchListid, opera);
         }
 
-        public DataTable GetPickListDetail(string listid)
+        public DataTable GetPickListDetail(string listid,DateTime u_beginTime, DateTime u_endTime)
         {
-            DataSet ds = new PickData().QueryPickByListid(listid, null, null, 0, 0, "0000", "0000");
+            DataSet ds = new PickData().QueryPickByListid(listid, u_beginTime, u_endTime, 0, 0, "0000", "0000");
             return (ds == null || ds.Tables.Count == 0) ? null : ds.Tables[0];
             
             //var dt = new PickData().QueryPickByListidNew(listid);

@@ -211,7 +211,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 			string sorttype = ViewState["sorttype"].ToString();
 
 			int max = pager.PageSize;
-			int start = max * (index-1) + 1;
+			int start = max * (index-1);
             bool isRight = TENCENT.OSS.CFT.KF.KF_Web.classLibrary.ClassLib.ValidateRight("SensitiveRole", this);
             //DataSet ds = pickservice.GetPickList(idtype, u_ID, begindate, enddate, fstate, fnum, banktype, sorttype, cash_type, start, max);
             DataSet ds = pickservice.GetPickListFromDB(idtype, u_ID, begindate, enddate, fstate, fnum, banktype, sorttype, cash_type, start, max);
