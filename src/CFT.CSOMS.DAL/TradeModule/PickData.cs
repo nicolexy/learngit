@@ -60,7 +60,7 @@ namespace CFT.CSOMS.DAL.TradeModule
             else if (idtype == 2)
             {
                 //按提现单号查询
-                return QueryPickByListid(u_ID, stime, etime, fstate, fnum, banktype, cashtype);
+                return QueryPickByListid(u_ID, u_BeginTime, u_EndTime, fstate, fnum, banktype, cashtype);
             }
             else
             {
@@ -71,9 +71,9 @@ namespace CFT.CSOMS.DAL.TradeModule
         /// 按提记录按单号查询
         /// </summary>
         /// <returns></returns>
-        public DataSet QueryPickByListid(string listid, string stime, string etime, int fstate, float fnum, string banktype, string cashtype)
+        public DataSet QueryPickByListid(string listid, DateTime u_beginTime, DateTime u_endTime, int fstate, float fnum, string banktype, string cashtype)
         {
-          return  new PickData().GetPickListFromDB(listid, 2, DateTime.Now.AddDays(-1), DateTime.Now, fstate, fnum, banktype, "", cashtype, 0, 1);
+          return  new PickData().GetPickListFromDB(listid, 2, u_beginTime, u_endTime, fstate, fnum, banktype, "", cashtype, 0, 1);
 
             //if (string.IsNullOrEmpty(stime))
             //{
@@ -830,6 +830,8 @@ namespace CFT.CSOMS.DAL.TradeModule
                 {
                     commWhere += " and Fabank_type=" + banktype + " ";
                 }
+
+                commWhere += string.Format(" limit {0},{1} ",iPageStart,iPageMax);
                 #endregion
 
                 #region 根据帐号、银行卡、提现单号确定库表名
@@ -842,10 +844,29 @@ namespace CFT.CSOMS.DAL.TradeModule
                         if (!string.IsNullOrEmpty(uid))
                         {
                             commWhere += "  and   Fuid='" + uid + "' ";
-                            string table = GetPayListTableFromUID(uid);
-                            var pickDS = GetTCPBackUpDataBase(table, commWhere);
 
-                            return pickDS;
+                            //string table = GetPayListTableFromUID(uid);
+                            //var pickDS = GetTCPBackUpDataBase(table, commWhere);
+
+                            DateTime tmpDate = u_BeginTime;
+                            bool flag = false;
+                            string strGroup = "";
+                            while (tmpDate <= u_EndTime && tmpDate > DateTime.Parse("2012-04-01")) //旧数据没有历史表
+                            {
+                                string TableName = " " + tmpDate.ToString("yyyyMM");
+                                if (flag)
+                                {
+                                    strGroup += "  union all  ";
+                                }
+                                strGroup += " select Faid,Fuid,Faname,Facc_name,Fnum,Fbank_name,Fbusiness_type,Fpay_time,Fmodify_time,Fstandby3,Fbusiness_type,Fpay_time,Fmodify_time,Fstandby3,Fcharge,FaBankID,Fsign,Fpay_front_time,Fpay_front_time_acc,Ftde_id,Fbankid,Fstate,'' as FRTFlagName,''as FPayBankName ,'' as FNewNum ,Flistid ,Fmemo,Fabank_type,'' as FabanktypeName , '' as FNewCharge ,Frefund_ticket_flag,Fbank_type,'' as  FPayBankName,'' as  FRTFlagName,Fsp_batch  from " + TableName + "  " + commWhere + "  ";
+
+                                tmpDate = tmpDate.AddMonths(1);
+
+                                string strTmp = tmpDate.ToString("yyyy-MM-");
+                                tmpDate = DateTime.Parse(strTmp + "01 00:00:01");
+                                flag = true;
+                            }
+                            return GetList(strGroup);
                         }
                         else
                         {
@@ -879,7 +900,7 @@ namespace CFT.CSOMS.DAL.TradeModule
                         string strGroup = "";
                         while (tmpDate <= u_EndTime && tmpDate > DateTime.Parse("2012-04-01")) //旧数据没有历史表
                         {
-                            string TableName = "c2c_db.t_tcpay_list_" + tmpDate.ToString("yyyyMM");
+                            string TableName = " " + tmpDate.ToString("yyyyMM");
                             if (flag)
                             {
                                 strGroup += "  union all  ";

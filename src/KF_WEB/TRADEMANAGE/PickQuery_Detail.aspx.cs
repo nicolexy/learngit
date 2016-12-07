@@ -120,7 +120,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 
 			}
 
-            DataTable dt = pickservice.GetPickListDetail(listid);
+            DataTable dt = pickservice.GetPickListDetail(listid,u_beginTime,u_endTime);
 
             //LogHelper.LogInfo(string.Format(" TENCENT.OSS.CFT.KF.KF_Web.TradeManage.PickQuery_Detail  调用新接口 Apollo.Bow ：pickservice.GetPickListDetail(),listid={0}", listid));
             //DataTable dt = null;
