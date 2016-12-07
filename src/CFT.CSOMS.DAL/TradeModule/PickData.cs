@@ -577,7 +577,6 @@ namespace CFT.CSOMS.DAL.TradeModule
         }
 
 
-
         /// <summary>
         /// 刪除Set1和Spider查询出来的重复记录
         /// </summary>
@@ -642,6 +641,7 @@ namespace CFT.CSOMS.DAL.TradeModule
             //1、3位系统ID+YYYYMMDD+10位流水号；
             //2、3位系统ID+10位商户号+YYYYMMDD+7位序列号
             //20151203　提现单号中日期的年份前两位“20”用作set标识了
+            //495041612032120070636
 
             string strdate = "";
             if (listid.Length == 21)//3位业务编码 + 8位日期 + 10位序列号
@@ -681,6 +681,7 @@ namespace CFT.CSOMS.DAL.TradeModule
         /// <param name="othertable">其它月表（前一月或后一月）</param>
         public static void GetPayListTableFromTime(DateTime datetime, out string currtable, out string othertable)
         {
+            //2016-12-03
             if (datetime < DateTime.Parse("2012-04-01"))
             {
                 currtable = "";
@@ -836,27 +837,34 @@ namespace CFT.CSOMS.DAL.TradeModule
                 {
                     if (idtype == 0)//帐号
                     {
+                        LogHelper.LogInfo("帐号,需根据时间去查不同的set");
                         string uid = PublicRes.ConvertToFuid(u_ID);
                         if (!string.IsNullOrEmpty(uid))
                         {
                             commWhere += "  and   Fuid='" + uid + "' ";
                             string table = GetPayListTableFromUID(uid);
-                            var pickDS = GetTCPBackUpDataBase(table,commWhere);
+                            var pickDS = GetTCPBackUpDataBase(table, commWhere);
 
                             return pickDS;
                         }
                         else
+                        {
                             throw new Exception("提现查询函数未查出输入帐号" + u_ID + "的内部帐号，请核实或使用银行卡号or提现单号进行查询。");
+                        }
                     }
                     else if (idtype == 1)//银行卡,需根据时间去查不同的set
                     {
+                        LogHelper.LogInfo("银行卡,需根据时间去查不同的set");
                         string newbankacc = "";
                         if (u_ID != "" && !u_ID.StartsWith("X"))
                         {
                             //查询对应的加密卡号
-                            MySqlAccess daxyk = new MySqlAccess("XYK");
+                            MySqlAccess daxyk = MySQLAccessFactory.GetMySQLAccess("XYK");
                             newbankacc = GetCreditEncode(u_ID, daxyk);
+
+                            LogHelper.LogInfo(string.Format("银行卡:{0},newbankacc:{1}", u_ID.Length>5?u_ID.Substring(0,5):u_ID, newbankacc));
                         }
+
                         if (newbankacc.StartsWith("X"))
                         {
                             commWhere += "  and (Fabankid='" + u_ID + "' or Fabankid='" + newbankacc + "')";
@@ -876,7 +884,7 @@ namespace CFT.CSOMS.DAL.TradeModule
                             {
                                 strGroup += "  union all  ";
                             }
-                            strGroup += " select Faid,Fuid,Faname,Facc_name,Fnum,Fbank_name,Fcharge,FaBankID,Fsign,Fpay_front_time,Fpay_front_time_acc,Ftde_id,Fbankid,Fstate,'' as FRTFlagName,''as FPayBankName ,'' as FNewNum ,Flistid ,Fmemo,Fabank_type,'' as FabanktypeName , '' as FNewCharge ,Frefund_ticket_flag,Fbank_type,'' as  FPayBankName,'' as  FRTFlagName,Fsp_batch  from " + TableName + "  " + commWhere + "  ";
+                            strGroup += " select Faid,Fuid,Faname,Facc_name,Fnum,Fbank_name,Fbusiness_type,Fpay_time,Fmodify_time,Fstandby3,Fbusiness_type,Fpay_time,Fmodify_time,Fstandby3,Fcharge,FaBankID,Fsign,Fpay_front_time,Fpay_front_time_acc,Ftde_id,Fbankid,Fstate,'' as FRTFlagName,''as FPayBankName ,'' as FNewNum ,Flistid ,Fmemo,Fabank_type,'' as FabanktypeName , '' as FNewCharge ,Frefund_ticket_flag,Fbank_type,'' as  FPayBankName,'' as  FRTFlagName,Fsp_batch  from " + TableName + "  " + commWhere + "  ";
 
                             tmpDate = tmpDate.AddMonths(1);
 
@@ -888,6 +896,7 @@ namespace CFT.CSOMS.DAL.TradeModule
                     }
                     else if (idtype == 2)
                     {
+                        LogHelper.LogInfo("提现单号,需根据时间去查不同的set");
                         commWhere += "  and Flistid='" + u_ID + "' ";
                         string strGroup = "";
                         string currTable = "";
@@ -895,8 +904,8 @@ namespace CFT.CSOMS.DAL.TradeModule
                         GetPayListTableFromID(u_ID, out currTable, out otherTable);
                         if (!string.IsNullOrEmpty(currTable))
                         {
-                            strGroup += "  select Faid,Fuid,Faname,Facc_name,Fnum,Fbank_name,Fcharge,FaBankID,Fsign,Fpay_front_time,Fpay_front_time_acc,Ftde_id,Fbankid,Fstate,'' as FRTFlagName,''as FPayBankName ,'' as FNewNum ,Flistid ,Fmemo,Fabank_type,'' as FabanktypeName ,'' as FNewCharge ,Frefund_ticket_flag,Fbank_type,'' as  FPayBankName ,'' as  FRTFlagName,Fsp_batch from " + currTable + "   where  Flistid='" + u_ID + "' union all ";
-                            strGroup += "  select Faid,Fuid,Faname,Facc_name,Fnum,Fbank_name,Fcharge,FaBankID,Fsign,Fpay_front_time,Fpay_front_time_acc,Ftde_id,Fbankid,Fstate,'' as FRTFlagName,''as FPayBankName ,'' as FNewNum ,Flistid ,Fmemo,Fabank_type,'' as FabanktypeName ,'' as FNewCharge ,Frefund_ticket_flag,Fbank_type,'' as  FPayBankName ,'' as  FRTFlagName,Fsp_batch  from " + otherTable + "   where Flistid='" + u_ID + "'  ";
+                            strGroup += "  select Faid,Fuid,Faname,Facc_name,Fnum,Fbank_name,Fbusiness_type,Fpay_time,Fmodify_time,Fstandby3,Fcharge,FaBankID,Fsign,Fpay_front_time,Fpay_front_time_acc,Ftde_id,Fbankid,Fstate,'' as FRTFlagName,''as FPayBankName ,'' as FNewNum ,Flistid ,Fmemo,Fabank_type,'' as FabanktypeName ,'' as FNewCharge ,Frefund_ticket_flag,Fbank_type,'' as  FPayBankName ,'' as  FRTFlagName,Fsp_batch from " + currTable + "   where  Flistid='" + u_ID + "' union all ";
+                            strGroup += "  select Faid,Fuid,Faname,Facc_name,Fnum,Fbank_name,Fbusiness_type,Fpay_time,Fmodify_time,Fstandby3,Fcharge,FaBankID,Fsign,Fpay_front_time,Fpay_front_time_acc,Ftde_id,Fbankid,Fstate,'' as FRTFlagName,''as FPayBankName ,'' as FNewNum ,Flistid ,Fmemo,Fabank_type,'' as FabanktypeName ,'' as FNewCharge ,Frefund_ticket_flag,Fbank_type,'' as  FPayBankName ,'' as  FRTFlagName,Fsp_batch  from " + otherTable + "   where Flistid='" + u_ID + "'  ";
                         }
                         DataTable dt = GetDataByListID(u_ID, strGroup);
                         DataSet ds = new DataSet();
