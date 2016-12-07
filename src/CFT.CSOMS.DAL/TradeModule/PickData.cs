@@ -900,6 +900,14 @@ namespace CFT.CSOMS.DAL.TradeModule
                         DataTable dt = GetDataByListID(u_ID, strGroup);
                         DataSet ds = new DataSet();
                         ds.Tables.Add(dt);
+
+                        var rownum = 0;
+                        if (ds != null && ds.Tables.Count > 0) {
+                            rownum = ds.Tables[0].Rows.Count;
+                        }
+
+                        LogHelper.LogInfo("提现单号count=" + rownum);
+
                         return ds;
                     }
                 }

@@ -184,7 +184,7 @@ namespace TENCENT.OSS.CFT.KF.KF_Web.TradeManage
 			catch(Exception eSys)
             {
                 LogError("TradeManage.PickQueryNew", "protected void Button2_Click(object sender, System.EventArgs e),读取数据失败:", eSys);
-                WebUtils.ShowMessage(this.Page, "读取数据失败！" + HttpUtility.JavaScriptStringEncode(eSys.Message.ToString()));
+                WebUtils.ShowMessage(this.Page, "读取数据失败！" + PublicRes.GetErrorMsg(eSys.Message.ToString()));
 			}
 		}
 
